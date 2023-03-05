@@ -1,0 +1,16 @@
+.navbar-brand{
+    color:#c4a839 ;
+    font-size: 20px;
+    font-weight: bold;
+    padding-left: 20px;
+}
+body{
+    background-color: rgb(235, 234, 234);
+}
+.container{
+   
+}
+.btn-yellow{
+    background-color:#c4a839 ;
+    color: white;
+}

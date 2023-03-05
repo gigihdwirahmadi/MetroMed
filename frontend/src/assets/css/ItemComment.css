@@ -1,0 +1,47 @@
+.post {
+    width: 100%;
+    background-color: rgb(255, 253, 253);
+    padding: 20px;
+}
+
+.writer-div {
+    display: grid;
+
+}
+.user-div .side{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.time-div{
+    justify-self: flex-end;
+    padding-right: 30px;
+}
+.writer-name {
+    font-weight: bold;
+}
+
+.content-div {
+    margin: 10px 0;
+}
+
+.item-option {
+    margin-right: 10px;
+    float: left;
+    font-size: 20px;
+}
+
+.option-div {
+    height: 30px;
+}
+
+.NavLink, .NavLink:hover {
+    text-decoration: none;
+    color: black;
+}
+.content-div{
+    display: grid;
+    grid-template-columns: auto 50px;
+}
+.item-option{
+    color:#c4a839 ;
+}

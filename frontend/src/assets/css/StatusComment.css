@@ -1,0 +1,11 @@
+.title-comment{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin:10px 0;
+}
+.button-add-comment{
+    justify-self: flex-end;
+}
+.btn-yellow{
+    background-color:#c4a839 ;
+}
