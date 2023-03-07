@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('status_viewers', function (Blueprint $table) {
-            $table->id();
+            $table->id('comment_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('status_id');
             $table->unsignedBigInteger('status_id');

@@ -16,7 +16,7 @@ const AuthVerify = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem("token");
-
+    const user = localStorage.getItem("user");
     if (token) {
       const decodedJwt = parseJwt(token);
     console.log(decodedJwt.exp*1000, Date.now());
@@ -29,6 +29,9 @@ const AuthVerify = () => {
        
         navigate("/")
       }
+    }
+    else if(!token && user.length == 0 ){
+      navigate("/")
     }
   }, []);
 

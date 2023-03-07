@@ -3,3 +3,13 @@
     font-weight: bold;
     font-size: 18px;
 }
+.title-user-status{
+    display: grid;
+    margin: 10px 0 ;
+    font-weight: bold;
+    font-size: 18px;
+    grid-template-columns: 1fr 1fr;
+}
+.title-user-status .button{
+    justify-self: flex-end;
+}

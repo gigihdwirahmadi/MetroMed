@@ -4,21 +4,28 @@ import "../component/ItemStatus"
 import avatar from "./../assets/img/bg2.png"
 import {NavLink} from "react-router-dom"
 import ItemStatus from "../component/ItemStatus";
+import InfiniteScroll from 'react-infinite-scroll-component'
 import axios from "axios";
+import LoadingComponent from "../component/LoadingComponent";
 import { useEffect, useRef, useState, useReducer } from "react";
 import { getStatus } from "../service";
-
+import NotFoundComponent from "../component/NotFoundComponent";
 const Dashboard = () => {
+  const data={
+          items: [],
+          hasMore: true
+      }
   const [update, setUpdate] = useState( useReducer((x) => x + 1, 0));
   const [status, setStatus] = useState([]); 
+  const [isLoading, setIsLoading] = useState(false);
+  const [param, setParam]= useState('');
   const catchStatus = async () => {
     try {
-      console.log( axios.defaults.headers.common)
-      await getStatus().then((response) => {   
-        console.log(response.data)
+      setIsLoading(true);
+      await getStatus({params:{search:param}}).then((response) => {   
         setStatus(response.data);
-     
-        setUpdate();
+        setIsLoading(false);
+        setUpdate()
     });
     } catch (error) {
       console.log(error);
@@ -31,14 +38,21 @@ const Dashboard = () => {
   return (
     <>
     <div className="mother-wall">
+    {isLoading ? <LoadingComponent /> :
       <div className="wall1">
         <div className="title">
-          All Post
+          <div class="text"></div>
+          
         </div>
+        <div class="d-flex">
+        <input class="form-control me-2" value={param} placeholder="Search" onChange={(e) => setParam(e.target.value)} aria-label="Search"/>
+        <button class="btn btn-outline-dark" onClick={catchStatus}>Search</button>
+      </div>
         {
-          status? status.map((value, index) => {
+          status.length>0? status.map((value, index) => {
         return (
         <>
+       
             <NavLink
             to={`/status/${value.id}`}
             className="NavLink"
@@ -49,9 +63,10 @@ const Dashboard = () => {
         )
        
       })
-      : <><div>no data</div></>
+      : <><NotFoundComponent/></>
     }
       </div>
+}
     </div>
    
     </>

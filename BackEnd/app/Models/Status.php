@@ -12,6 +12,9 @@ class Status extends Model
 {
     use HasFactory, Notifiable;
     protected $table= 'status';
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i',
+    ];
     protected $fillable = [
         'detail',
         'user_id',

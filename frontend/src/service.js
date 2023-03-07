@@ -7,11 +7,23 @@ const headers = {
     },
 }
 export const getStatus = async (params) => {
-    return axios.get("http://localhost:8000/api/status/",params, {headers})
+    return axios.get("http://localhost:8000/api/status",params, {headers})
+};
+export const findStatus = async (id) => {
+    return axios.get("http://localhost:8000/api/status/"+id, {headers})
 };
 export const createComment = async (formData) => {
-    return 
+    return axios.post("http://localhost:8000/api/comment/",formData, {headers})
+};
+export const createStatus = async (formData) => {
+    return axios.post("http://localhost:8000/api/status/",formData, {headers})
+};
+export const editStatus = async (id,formData) => {
+    return axios.post("http://localhost:8000/api/status/"+id,formData, {headers})
 };
 export const deleteComment = async (id) => {
     return axios.delete("http://localhost:8000/api/comment/"+id, {headers})
+};
+export const deleteStatus = async (id) => {
+    return axios.delete("http://localhost:8000/api/status/"+id, {headers})
 };

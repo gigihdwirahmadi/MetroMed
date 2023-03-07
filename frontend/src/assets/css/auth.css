@@ -14,3 +14,15 @@ body{
     background-color:#c4a839 ;
     color: white;
 }
+.btn-outline-yellow{
+    color:#c4a839 ;
+    background-color: white;
+    border:1px solid #c4a839;
+    font-weight: bold;
+}
+.btn-outline-yellow:hover, .btn-yellow:hover{
+    color:black ;
+    background-color: white;
+    border:1px solid black;
+    font-weight: bold;
+}

@@ -9,7 +9,6 @@ const removeComment = async () => {
 console.log(id,id_user)
   try {
       await deleteComment(id).then((response) => {
-        
           setrender();
       });
   } catch (error) {

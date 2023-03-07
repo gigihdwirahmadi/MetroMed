@@ -34,8 +34,9 @@ Route::middleware(['auth:api'])->group(
         Route::get('/comment/{id}', [CommentController::class, 'show'])->name('comment.shoe');
         Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->name("comment.delete");
     });
-   
-    Route::get('/status/user', [StatusController::class, 'UserStatus'])->name('status.user');
+    Route::get('/status', [StatusController::class, 'index'])->name('status.index');
+       
+    
 
 
     

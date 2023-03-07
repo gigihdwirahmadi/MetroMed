@@ -20,6 +20,9 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): Response
     {
+        // $fileName = time().'.'.$request->file->extension();  
+        // $request->file->move(public_path('uploads'), $fileName);
+        
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'phone_number' => ['required'],
@@ -32,7 +35,8 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'phone_number' => $request->phone_number
+            'phone_number' => $request->phone_number,
+            // 'file'=>$fileName
         ]);
 
         event(new Registered($user));

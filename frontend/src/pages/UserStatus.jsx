@@ -2,17 +2,24 @@ import React from "react";
 import "./../assets/css/dashboard.css"
 import "../component/ItemStatus"
 import avatar from "./../assets/img/bg2.png"
+import { ToastContainer, toast } from 'react-toastify';
 import { Modal, Button } from 'react-bootstrap'
+import LoadingComponent from "../component/LoadingComponent";
 import { NavLink } from "react-router-dom"
-import ItemStatus from "../component/ItemStatus";
+import CrudStatusComponent from "../component/CrudStatusComponent";
 import axios from "axios";
 import { useEffect, useRef, useState, useReducer } from "react";
-import { getStatus } from "../service";
+import NotFoundComponent from "../component/NotFoundComponent";
+import { getStatus, createStatus, findStatus, editStatus } from "../service";
 
 const UserStatus = () => {
-    const [isShow, invokeModal] = useState(false)
-    const [errorform, setError] = useState()
+    const [isShow, invokeModal] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [formupdate, setFormupdate] = useState(false);
+    const [loadctrl, setLoadctrl] = useState(0);
+    const [errorform, setError] = useState('')
     const [formStatus, setformStatus] = useState('');
+    const [idUpdate, setIdupdate] = useState('')
     const [update, setUpdate] = useState(useReducer((x) => x + 1, 0));
     const [status, setStatus] = useState([]);
     const initModal = () => {
@@ -20,6 +27,9 @@ const UserStatus = () => {
             return invokeModal(true)
         }
         else {
+            if (formupdate == true) {
+                setFormupdate(false)
+            }
             return invokeModal(false)
         }
     }
@@ -28,31 +38,58 @@ const UserStatus = () => {
         const formData = new FormData();
         formData.append("detail", formStatus);
         try {
-            await axios.post("http://localhost:8000/api/status/", formData, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                }
-            },).then((response) => {
-
-                invokeModal(false)
-                window.location.reload(true)
+            if (formupdate == false) {
+                await createStatus(formData).then((response) => {
+                    invokeModal(false)
+                    toast.success('Add status Success !', {
+                        position: toast.POSITION.TOP_RIGHT
+                    });
+                    catchStatus();
+                    setformStatus('');
+                });
+            } else {
+                console.log(idUpdate, formStatus);
+                await editStatus(idUpdate, formData,).then((response) => {
+                    invokeModal(false)
+                    toast.success('Update Status Success !', {
+                        position: toast.POSITION.TOP_RIGHT
+                    });
+                    catchStatus();
+                    setFormupdate(false);
+                    setformStatus('');
+                });
+            }
+        } catch (error) {
+            toast.warning('Error in add Status !', {
+                position: toast.POSITION.TOP_RIGHT
+            });
+            catchStatus();
+            setError(error.response.data.errors);
+        }
+    };
+    const updateStatus = async (id) => {
+        setFormupdate(true);
+        try {
+            await findStatus(id).then((response) => {
+                invokeModal(true);
+                setIdupdate(id);
+                setformStatus(response.data.data.detail)
             });
         } catch (error) {
-            setError(error.response.data.errors);
         }
     };
     const catchStatus = async () => {
         try {
-            const param = { user_id: JSON.parse(localStorage.getItem('user')).id };
-            console.log(param);
-            console.log(axios.defaults.headers.common)
-            await getStatus({ params: param }).then((response) => {
-                console.log(response.data)
-                setStatus(response.data);
-                setUpdate();
-            });
+            if(loadctrl==0){
+                setLoadctrl(loadctrl+1);
+                setIsLoading(true)
+            }
+            console.log(JSON.parse(localStorage.getItem('user')).id)
+            getStatus({ params: { user_id: JSON.parse(localStorage.getItem('user')).id } },)
+                .then((response) => {
+                    setStatus(response.data);
+                    setIsLoading(false)
+                });
         } catch (error) {
             console.log(error);
         }
@@ -60,32 +97,41 @@ const UserStatus = () => {
 
     useEffect(() => {
         catchStatus();
-    }, [update]);
+    },[update] );
     return (
         <>
             <div className="mother-wall">
+            {isLoading ? <LoadingComponent /> :
                 <div className="wall1">
-                    <div className="title">
-                        All Post
+                    <ToastContainer />
+                    <div className="title-user-status">
+                        <div>Your Status</div>
+                        <div className="button"> <button class="btn btn-outline-yellow " aria-current="page" href="#" onClick={initModal}>Add Status</button></div>
                     </div>
-                    <div class="btn btn-yellow " aria-current="page" href="#" onClick={initModal}>Add Status</div>
+
                     {
-                        status ? status.map((value, index) => {
+                        status.length > 0 ? status.map((value, index) => {
                             return (
                                 <>
-                                    <NavLink
-                                        to={`/status/${value.id}`}
-                                        className="NavLink"
-                                    >
-                                        <ItemStatus key={value} avatar={avatar} name={value.users.name} created_at={value.created_at} content={value.detail} />
-                                    </NavLink>
+
+                                    <CrudStatusComponent
+                                        fungsi={updateStatus}
+                                        id={value.id}
+                                        key={value}
+                                        avatar={avatar}
+                                        name={value.users.name}
+                                        created_at={value.created_at}
+                                        content={value.detail}
+                                        render={catchStatus} />
+
                                 </>
                             )
 
                         })
-                            : <><div>no data</div></>
+                            : <><NotFoundComponent /></>
                     }
                 </div>
+                }
             </div>
             <Modal show={isShow}>
                 <Modal.Header closeButton onClick={initModal}>
@@ -98,7 +144,7 @@ const UserStatus = () => {
                             className={`form-control ${errorform?.detail ? "is-invalid" : ""}`}
                             id="exampleFormControlTextarea1" rows="7"
                             onChange={(e) => setformStatus(e.target.value)}
-                        >{formStatus }</textarea>
+                        >{formStatus}</textarea>
                         {errorform?.detail &&
                             <span className='invalid-feedback'>{errorform.detail}</span>}
                     </div>

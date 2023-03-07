@@ -39,25 +39,6 @@ const Layout = ({ children, title }) => {
     localStorage.removeItem("token");
     navigate("/")
   };
-  const submitStatus = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("detail", formStatus);
-    try {
-        await axios.post("http://localhost:8000/api/status/",formData, { headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-        }},).then((response) => {
-
-            invokeModal(false)
-          window.location.reload(true)  
-        });
-    } catch (error) {
-        setError(error.response.data.errors);
-    }
-};
-
   useEffect(() => {
     if (!token && user.length == 0) {
       navigate("/");
@@ -81,13 +62,11 @@ const Layout = ({ children, title }) => {
               <li class="nav-item">
                 <a class="nav-link" href="#">Feature</a>
               </li>
-              <li class="nav-item">
-                <div class="nav-link" onClick={logoutHandler}>Logout</div>
-              </li>
+             
             </ul>
             <ul class="navbar-nav ms-auto">
               <li class="nav-item mx-5">
-                <div class="btn btn-yellow " aria-current="page" href="#"  onClick={initModal}>Add Status</div>
+                <div class="btn btn-yellow " aria-current="page" href="#"  onClick={logoutHandler}>Logout</div>
               </li>
             </ul>
           </div>
@@ -97,32 +76,7 @@ const Layout = ({ children, title }) => {
 
         <div className="">{children}</div>
       </div>
-      <Modal show={isShow}>
-                <Modal.Header closeButton onClick={initModal}>
-                    <Modal.Title>Add Status</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Detail Status</label>
-                        <textarea
-                            className={`form-control ${errorform?.detail ? "is-invalid" : ""}`}
-                            id="exampleFormControlTextarea1" rows="7"
-                            onChange={(e) => setformStatus(e.target.value)}
-                        >{formStatus }</textarea>
-                        {errorform?.detail &&
-                            <span className='invalid-feedback'>{errorform.detail}</span>}
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <button className="btn btn-yellow text-white" onClick={initModal}>
-                        Close
-                    </button>
-                    <Button variant="dark" onClick={submitStatus}>
-                        Store
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-
+     
     </div>
   );
 };

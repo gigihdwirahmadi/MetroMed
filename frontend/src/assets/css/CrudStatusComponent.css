@@ -1,0 +1,33 @@
+.post{
+    width: 100%;
+    background-color: rgb(255, 253, 253);
+    padding: 20px;
+    margin:10px 0;
+}
+
+.writer-div{
+    display: grid;
+    grid-template-columns: 60px 1fr 1fr;
+}
+.writer-name{
+    font-weight: bold;
+}
+.avatar img{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+.content-div{
+    margin:10px 0;
+}
+.option{
+    justify-self: flex-end;
+}
+.NavLink, .NavLink:hover{
+    text-decoration: none;
+    color: black;
+}
+.option span{
+    margin: 0 5px;
+    font-size: 20px;
+}

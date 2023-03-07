@@ -6,19 +6,28 @@ use Illuminate\Http\Request;
 use App\Http\Requests\InfoRequest;
 use Illuminate\Support\Facades\Auth;
 use NunoMaduro\Collision\Adapters\Phpunit\State;
-
+use DateTimeInterface;
 class StatusController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param  \DateTimeInterface  $date
      * @return \Illuminate\Http\Response
      */
+ 
+    protected function serializeDate(DateTimeInterface $date)
+{
+    return $date->format('Y-m-d H:i:s');
+}
     public function index(Request $request)
     {
-        $data = Status::orderBy('created_at', 'DESC')->with('users') ->when($request->has('user_id'), function ($query) use ($request) {
-            $query->where('user_id', $request->user_id);
-    })->get();
+        $data = Status::orderBy('created_at', 'DESC')->with('users') 
+        ->when($request->has('user_id'), function ($query) use ($request) {
+            $query->where('user_id', $request->user_id);})
+        ->when($request->has('search'), function ($query) use ($request) {
+            $query->where('detail', 'like', '%' . $request->search . '%');})
+            ->get();
     return response()->json($data);
     }
 
