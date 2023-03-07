@@ -11,34 +11,48 @@ import { useEffect, useRef, useState, useReducer } from "react";
 import { getStatus } from "../service";
 import NotFoundComponent from "../component/NotFoundComponent";
 const Dashboard = () => {
-  const data={
-          items: [],
-          hasMore: true
-      }
-  const [update, setUpdate] = useState( useReducer((x) => x + 1, 0));
+  const [update, setUpdate] = useState(0);
   const [status, setStatus] = useState([]); 
   const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+   const [hasMore, setHasMore] = useState(true)
   const [param, setParam]= useState('');
+
   const catchStatus = async () => {
     try {
-      setIsLoading(true);
-      await getStatus({params:{search:param}}).then((response) => {   
-        setStatus(response.data);
+      
+      await getStatus({params:{search:param, page:page}}).then((response) => {   
+        console.log(response.data.data)
+        if (response.data.data.length === 0) {
+                setHasMore(false)
+              }
+        setStatus([...status, ...response.data.data])
+        console.log(status)
         setIsLoading(false);
-        setUpdate()
     });
     } catch (error) {
       console.log(error);
     }
   };
-
+  const nextScroll= async()=>{
+    // await setPage(page+1).then((response)=> catchStatus())
+    setPage(page+1);
+    setUpdate(update+1);
+  }
+  const onSearch= async()=>{
+    setPage(1);
+    setStatus([]);
+    setUpdate(update+1);
+  }
   useEffect(() => {
   catchStatus();
   }, [update]);
+ 
+     
   return (
     <>
     <div className="mother-wall">
-    {isLoading ? <LoadingComponent /> :
+    
       <div className="wall1">
         <div className="title">
           <div class="text"></div>
@@ -46,10 +60,21 @@ const Dashboard = () => {
         </div>
         <div class="d-flex">
         <input class="form-control me-2" value={param} placeholder="Search" onChange={(e) => setParam(e.target.value)} aria-label="Search"/>
-        <button class="btn btn-outline-dark" onClick={catchStatus}>Search</button>
+        <button class="btn btn-outline-dark" onClick={onSearch}>Search</button>
       </div>
+      <InfiniteScroll
+          dataLength={status.length}
+          next={nextScroll}
+          hasMore={hasMore}
+          loader={<LoadingComponent/>}
+          endMessage={
+            <p style={{ textAlign: 'center' }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
+        >
         {
-          status.length>0? status.map((value, index) => {
+          status.length>0 ? status.map((value, index) => {
         return (
         <>
        
@@ -59,14 +84,17 @@ const Dashboard = () => {
           >
           <ItemStatus key={value} avatar={avatar} name={value.users.name} created_at={value.created_at} content={value.detail}/>
           </NavLink>
+
         </>
+       
         )
        
       })
-      : <><NotFoundComponent/></>
+      : <></>
     }
+</InfiniteScroll>
       </div>
-}
+
     </div>
    
     </>

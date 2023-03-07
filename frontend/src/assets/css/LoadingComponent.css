@@ -32,5 +32,6 @@
     display: grid;
     justify-content: center;
     align-items: center;
-    height: 80vh;
+    height: auto;
+    overflow: hidden;
   }

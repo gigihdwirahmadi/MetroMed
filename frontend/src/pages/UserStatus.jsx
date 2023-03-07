@@ -3,6 +3,7 @@ import "./../assets/css/dashboard.css"
 import "../component/ItemStatus"
 import avatar from "./../assets/img/bg2.png"
 import { ToastContainer, toast } from 'react-toastify';
+import InfiniteScroll from 'react-infinite-scroll-component'
 import { Modal, Button } from 'react-bootstrap'
 import LoadingComponent from "../component/LoadingComponent";
 import { NavLink } from "react-router-dom"
@@ -20,8 +21,10 @@ const UserStatus = () => {
     const [errorform, setError] = useState('')
     const [formStatus, setformStatus] = useState('');
     const [idUpdate, setIdupdate] = useState('')
-    const [update, setUpdate] = useState(useReducer((x) => x + 1, 0));
+    const [update, setUpdate] = useState(0);
     const [status, setStatus] = useState([]);
+    const [page, setPage] = useState(1);
+     const [hasMore, setHasMore] = useState(true)
     const initModal = () => {
         if (isShow == false) {
             return invokeModal(true)
@@ -33,6 +36,11 @@ const UserStatus = () => {
             return invokeModal(false)
         }
     }
+    const nextScroll= async()=>{
+        // await setPage(page+1).then((response)=> catchStatus())
+        setPage(page+1);
+        setUpdate(update+1);
+      }
     const submitStatus = async (e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -44,7 +52,11 @@ const UserStatus = () => {
                     toast.success('Add status Success !', {
                         position: toast.POSITION.TOP_RIGHT
                     });
-                    catchStatus();
+                    var newdata= [response.data.data]
+                    var array = status;
+                    var newarray= newdata.concat(array) 
+                    console.log(newarray)
+                    setStatus(newarray);
                     setformStatus('');
                 });
             } else {
@@ -54,7 +66,10 @@ const UserStatus = () => {
                     toast.success('Update Status Success !', {
                         position: toast.POSITION.TOP_RIGHT
                     });
-                    catchStatus();
+                    var array = [...status]; // make a separate copy of the array
+                    const idx = array.findIndex(item => item.id === idUpdate)
+                    array[idx]= response.data;
+                    setStatus(array);
                     setFormupdate(false);
                     setformStatus('');
                 });
@@ -63,7 +78,6 @@ const UserStatus = () => {
             toast.warning('Error in add Status !', {
                 position: toast.POSITION.TOP_RIGHT
             });
-            catchStatus();
             setError(error.response.data.errors);
         }
     };
@@ -78,17 +92,29 @@ const UserStatus = () => {
         } catch (error) {
         }
     };
+    const renderdelete=(id)=>{
+        var array = [...status]; // make a separate copy of the array
+        const idx = array.findIndex(item => item.id === id)
+        
+          array.splice(idx, 1);
+          setStatus(array);
+    }
     const catchStatus = async () => {
+        console.log('ada')
         try {
             if(loadctrl==0){
                 setLoadctrl(loadctrl+1);
                 setIsLoading(true)
             }
+            
             console.log(JSON.parse(localStorage.getItem('user')).id)
-            getStatus({ params: { user_id: JSON.parse(localStorage.getItem('user')).id } },)
+            getStatus({ params: { user_id: JSON.parse(localStorage.getItem('user')).id, page: page } },)
                 .then((response) => {
-                    setStatus(response.data);
-                    setIsLoading(false)
+                    if (response.data.data.length === 0) {
+                              setHasMore(false)
+                        }
+                        setStatus([...status, ...response.data.data])
+                    
                 });
         } catch (error) {
             console.log(error);
@@ -101,7 +127,17 @@ const UserStatus = () => {
     return (
         <>
             <div className="mother-wall">
-            {isLoading ? <LoadingComponent /> :
+            <InfiniteScroll
+          dataLength={status.length}
+          next={nextScroll}
+          hasMore={hasMore}
+          loader={<LoadingComponent/>}
+          endMessage={
+            <p style={{ textAlign: 'center' }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
+        >
                 <div className="wall1">
                     <ToastContainer />
                     <div className="title-user-status">
@@ -122,7 +158,7 @@ const UserStatus = () => {
                                         name={value.users.name}
                                         created_at={value.created_at}
                                         content={value.detail}
-                                        render={catchStatus} />
+                                        render={renderdelete} />
 
                                 </>
                             )
@@ -131,7 +167,7 @@ const UserStatus = () => {
                             : <><NotFoundComponent /></>
                     }
                 </div>
-                }
+                </InfiniteScroll>
             </div>
             <Modal show={isShow}>
                 <Modal.Header closeButton onClick={initModal}>

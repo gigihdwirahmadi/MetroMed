@@ -5,12 +5,13 @@ namespace App\Models;
 use App\Traits\Notifiable;
 use App\Models\User;
 use App\Models\Comment;
+use App\Traits\Paging;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Status extends Model
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Paging, Notifiable;
     protected $table= 'status';
     protected $casts = [
         'created_at' => 'datetime:Y-m-d H:i',

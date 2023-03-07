@@ -27,7 +27,7 @@ class StatusController extends Controller
             $query->where('user_id', $request->user_id);})
         ->when($request->has('search'), function ($query) use ($request) {
             $query->where('detail', 'like', '%' . $request->search . '%');})
-            ->get();
+            ->paging(7);
     return response()->json($data);
     }
 
@@ -54,9 +54,10 @@ class StatusController extends Controller
         ];
         $validated['user_id']= Auth::user()->id;
         $status = Status::create($validated);
+        $data= Status::where('id',$status->id)->with('users:id,name')->first();
         return response()->json([
             'status' => "ok",
-            'data' => $status
+            'data' => $data
         ], 201);
     }
 
@@ -83,7 +84,7 @@ class StatusController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Status::where('id',$id)->with('users:id,name')->first();
     }
 
     /**
@@ -101,6 +102,7 @@ class StatusController extends Controller
         $validated['user_id']= Auth::user()->id;
         $data= Status::find($id);
         $data->update($validated);
+        $data=  Status::where('id',$id)->with('users:id,name')->first();
         return response()->json($data, 201);
     }
 

@@ -24,7 +24,7 @@ const updateHandle = (e) => {
 const deleteHandle= async (e) => {
     e.preventDefault();
     await deleteStatus(id).then((response) => {
-        render();
+        render(id);
         toast.success('Delete Status Success !', {
             position: toast.POSITION.TOP_RIGHT
         });
