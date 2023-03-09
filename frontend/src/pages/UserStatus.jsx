@@ -25,7 +25,8 @@ const UserStatus = () => {
     const [wordCount, setWordCount] = useState(0);
     const [status, setStatus] = useState([]);
     const [page, setPage] = useState(1);
-     const [hasMore, setHasMore] = useState(true)
+     const [hasMore, setHasMore] = useState(true);
+    document.title = "MyStatus";
     const initModal = () => {
         if (isShow == false) {
             return invokeModal(true)

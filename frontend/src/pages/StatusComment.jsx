@@ -15,6 +15,7 @@ import { createComment, findStatus, UpdateComment, findComment } from "../servic
 const StatusComment = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isUpdated, setIsUpdated] = useState(false);
+    const [updateChild, setUpdateChild] = useState(0);
     const [idUpdateCom, setIdupdateCom] = useState(0);
     const [update, setUpdate] = useState('');
     const [loadctrl, setLoadctrl] = useState(0);
@@ -25,6 +26,7 @@ const StatusComment = () => {
     const [replyId, setReplyId] =  React.useState(null);
     const { id } = useParams();
     const [isShow, invokeModal] = React.useState(false)
+    document.title = "Status";
     const initModal = () => {
         setReplyId(null)
         if (isUpdated == true) {
@@ -52,7 +54,6 @@ const StatusComment = () => {
     const submitComment = async (e) => {
         e.preventDefault();
         const formData = new FormData();
-        console.log(id,formComment,replyId)
         formData.append("status_id", id);
         formData.append("comment", formComment);
         formData.append("reply_id", replyId);
@@ -71,7 +72,7 @@ const StatusComment = () => {
                     var joinarr = newdata.concat(array);
                     setComment(joinarr);
                     }else{
-                        return response
+                        setUpdateChild(updateChild+1)
                     }
                     setReplyId(null);
                 });
@@ -81,20 +82,21 @@ const StatusComment = () => {
                     toast.success('Add Comment Success !', {
                         position: toast.POSITION.TOP_RIGHT
                     });
+                    if(replyId==null){
                     var array = [...Comment]; // make a separate copy of the array
                     const idx = array.findIndex(item => item.comment_id === response.data.data.comment_id)
                     array[idx] = response.data.data;
                     setComment(array);
+                    }
+                    setReplyId(null);
                 });
             }
+            setFormComment('');
         } catch (error) {
             setError(error.response.data.errors);
 
         }
     };
-    const check= ()=>{
-        console.log(replyId)
-    }
     const getStatus = async () => {
         try {
             if (loadctrl == 0) {
@@ -147,7 +149,6 @@ const StatusComment = () => {
                         <div className="title">
                             Post
                         </div>
-                        <button onClick={check}>ceek</button>
                         {
                             status ?
                                 <>
@@ -159,10 +160,10 @@ const StatusComment = () => {
                                     {
                                         Comment.length > 0 ?
                                             <>{Comment.map((value, index) => {
-                                                return (<div key={index}  tabIndex={index+1}>
+                                                return (<div key={index}>
                                                     <ItemComment
                                                         avatar={avatar}
-                                                        replytotal={value.replytotal}
+                                                        replytotal={value.reply_total}
                                                         like={value.like_comment_count}
                                                         likes={value.likes_comment_count}
                                                         name={value.users.name}
@@ -173,7 +174,8 @@ const StatusComment = () => {
                                                         handleUpdate={handleComment}
                                                         created_at={value.created_at}
                                                         content={value.comment}
-                                                        createReply={addReply} />
+                                                        createReply={addReply}
+                                                        renderReply={updateChild} />
                                                 </div>)
                                             })}
                                             </> : <div className="text-center fw-bold">no data more</div>}</>

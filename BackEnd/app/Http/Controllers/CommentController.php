@@ -47,18 +47,17 @@ class CommentController extends Controller
         $validated['user_id']= Auth::user()->id;
         $validated['reply_id']= $request->reply_id;
         if($request->reply_id=="null"){
+            $validated['reply_id']= null;
             $comment = Comment::create($validated);
         }else{
             $data= Comment::where("comment_id", $request->reply_id)->first();
-            $data->reply_total= $data->reply_total+1;
-            Comment::where("comment_id", $request->reply_id)->update(["reply_total"=>$data->reply_total]);
+            Comment::where("comment_id", $request->reply_id)->update(["reply_total"=>$data->reply_total+1]);
             $comment = Comment::create($validated);
         }
         $comment= Comment::where("comment_id", $comment->id)->with('users')->first();
         return response()->json([
             'status' => "ok",
             'data' => $comment,
-            'reply'=> $data
         ], 201);
     }
 
@@ -78,7 +77,7 @@ class CommentController extends Controller
     }
     public function showReply($id)
     {
-        $data= Comment::where("reply_id", $id);
+        $data= Comment::where("reply_id", $id)->with('users')->withCount('likeComment')->withCOunt('likesComment')->get();
         return response()->json([
             'status' => "ok",
             'data' => $data
@@ -111,7 +110,7 @@ class CommentController extends Controller
         $validated['user_id']= Auth::user()->id;
         $data= Comment::where("comment_id", $id);
         $data->update($validated);
-        $data= Comment::where("comment_id", $id)->join('users','users.id', 'comments.user_id')->first();
+        $data= Comment::where("comment_id", $id)->with('users')->withCount('likeComment')->withCOunt('likesComment')->first();
         return response()->json([
             'status' => "ok",
             'data' => $data
@@ -140,6 +139,11 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
+        $data=Comment::where('comment_id', $id)->first();
+        if($data->reply_id!=null){
+            $data2=Comment::where('comment_id', $data->reply_id)->first();
+            Comment::where("comment_id", $data->reply_id)->update(["reply_total"=>$data2->reply_total-1]);
+        }
         Comment::where('comment_id', $id)->delete();
 
         return response()->noContent();

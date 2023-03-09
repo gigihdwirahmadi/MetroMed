@@ -40,3 +40,6 @@ export const deleteComment = async (id) => {
 export const deleteStatus = async (id) => {
     return axios.delete("http://localhost:8000/api/status/"+id, {headers})
 };
+export const replyComment = async (id) => {
+    return axios.get("http://localhost:8000/api/reply/"+id, {headers})
+};

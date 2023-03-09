@@ -31,7 +31,7 @@ Route::middleware(['auth:api'])->group(
         Route::post('/comment/{id}', [CommentController::class, 'update'])->name("comment.update");
         Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
         Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
-        Route::get('/reply', [CommentController::class, 'reply'])->name('comment.reply');
+        Route::get('/reply/{id}', [CommentController::class, 'showReply'])->name('comment.reply');
         Route::get('/comment/{id}', [CommentController::class, 'show'])->name('comment.show');
         Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->name("comment.delete");
     });

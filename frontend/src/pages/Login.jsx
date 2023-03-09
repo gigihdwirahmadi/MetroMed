@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,NavLink } from "react-router-dom";
 import axios from "axios";
 import './../assets/css/login.css';
 const Login = () => {
@@ -57,12 +57,12 @@ const Login = () => {
                 <input
                 className={`form-control ${errorform?.email ? "is-invalid" : ""}`}
                
-                  type="email"
+                  type="text"
                   name="email"
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter Your Email"
+                  placeholder="Enter Your Email or Phone Number"
                 />
                 {errorform?.email && 
   <span className='invalid-feedback'>{errorform.email}</span>}
@@ -82,7 +82,12 @@ const Login = () => {
               </div>
               
               <div className="button-form">
+              <NavLink
+            to={`/register`}
+            className="NavLink"
+          >
               <div className="register-button">dont have acoount? <a href="#">register</a></div>
+              </NavLink>
               <div className="botttom-button">
                 <button className="btn btn-dark" type="submit">Sign In</button>
                 </div>

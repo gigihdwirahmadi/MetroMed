@@ -17,17 +17,15 @@ const Dashboard = () => {
   const [page, setPage] = useState(1);
    const [hasMore, setHasMore] = useState(true)
   const [param, setParam]= useState('');
-
+  document.title = "Home";
   const catchStatus = async () => {
     try {
       
       await getStatus({params:{search:param, page:page}}).then((response) => {   
-        console.log(response.data.data)
         if (response.data.data.length <7) {
                 setHasMore(false)
               }
         setStatus([...status, ...response.data.data])
-        console.log(status)
         setIsLoading(false);
     });
     } catch (error) {

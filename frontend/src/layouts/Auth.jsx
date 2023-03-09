@@ -1,12 +1,13 @@
 import axios from "axios";
 import './../assets/css/auth.css'
-import { React,useState, useEffect,  } from "react";
+import { React, useState, useEffect, } from "react";
+import {NavLink} from "react-router-dom"
 import { useNavigate } from "react-router-dom";
 import { Modal, Button } from 'react-bootstrap'
 import AuthVerify from './../plugins'
 const Layout = ({ children, title }) => {
   const [user, setUser] = useState([]);
-  const [errorform,setError] = useState()
+  const [errorform, setError] = useState()
   const token = localStorage.getItem("token");
   const [formStatus, setformStatus] = useState('');
   const [isShow, invokeModal] = useState(false)
@@ -44,23 +45,30 @@ const Layout = ({ children, title }) => {
       <AuthVerify />
       <nav className="navbar navbar-expand-lg bg-light">
         <div className="container-fluid">
+        <NavLink
+                  to={`/dashboard`}
+                  className="NavLink"
+                >
           <a className="navbar-brand" href="#">Navbar</a>
+          </NavLink>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className=" collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">Home</a>
+                <NavLink
+                  to={`/mystatus`}
+                  className="NavLink"
+                >
+                  <a className="nav-link" href="#">Our Status</a>
+                </NavLink>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">Feature</a>
-              </li>
-             
+
             </ul>
             <ul className="navbar-nav ms-auto">
               <li className="nav-item mx-5">
-                <div className="btn btn-yellow " aria-current="page" href="#"  onClick={logoutHandler}>Logout</div>
+                <div className="btn btn-yellow " aria-current="page" href="#" onClick={logoutHandler}>Logout</div>
               </li>
             </ul>
           </div>
@@ -70,7 +78,7 @@ const Layout = ({ children, title }) => {
 
         <div className="">{children}</div>
       </div>
-     
+
     </div>
   );
 };

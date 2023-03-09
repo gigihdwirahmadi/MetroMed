@@ -1,21 +1,18 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { deleteComment,replyComment } from "../service";
+import { deleteComment } from "../service";
 import { likeComment } from "../service";
-import  ReplyComment  from "./ReplyComment";
-import './../assets/css/ItemComment.css'
-const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setrender,renderReply, handleUpdate, replytotal,createReply,setid }) => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  const [isLike, setIsLike] = useState(like);
-  const [totalReply, setTotalReply] =useState(replytotal)
-  const [isShow, setIsShow] = useState(false);
+import './../assets/css/ReplyComment.css'
+const ReplyComment = ({ name, likes, created_at, content, like, id_user, id, setrender}) => {
+const user = JSON.parse(localStorage.getItem("user"));
+const [isLike, setIsLike] = useState(like);
 const [likeCount, setLikeCount] = useState(likes);
-const [reply,setReply]= useState([]);
-  const [isReply, setIsReply] = useState(false);
   const likeHandle= async(e)=>{
     e.preventDefault();
+    console.log(id)
     try{
     await likeComment(id).then((response)=>{
+   
       if(isLike==0){
         setIsLike(1);
         setLikeCount(likeCount+1)
@@ -34,42 +31,23 @@ const [reply,setReply]= useState([]);
     try {
       await deleteComment(id).then((response) => {
         setrender(id);
-        setTotalReply(totalReply-1)
       });
     } catch (error) {
       console.log(error);
     }
   };
   const UpdateComment = async () => {
-    handleUpdate(id);
+    // handleUpdate(id);
   };
-  const addReply =async (e) => {
-    e.preventDefault();
-    await createReply(id)
+  const addReply =() => {
+    // createReply(id)
   };
-  const showreply = async (e) => {
-    e.preventDefault();
-    if(isShow==false){
-    setIsShow(true);
-    catchreply();
-  }else{
-    setIsShow(false)
+  const showreply = async () => {
     
-  }};
-  const catchreply = async (e) => {
-    if(isShow==true){
-    await replyComment(id).then((response)=>{
-      setReply([])
-      setReply([...response.data.data])
-  });
-  }
-}
-  useEffect(() => {
-    catchreply();
-    }, [renderReply]);
+  };
   return (
-    <>
-      <div className="post">
+    <div className="wall-reply">
+      <div className="post-comment">
         <div className="user-div">
 
           <div className="side">
@@ -90,7 +68,6 @@ const [reply,setReply]= useState([]);
                   {user?.id == id_user &&
                     <div className="button" onClick={UpdateComment}><div>edit</div></div> 
                   }
-                    <div className="button" onClick={(e)=>addReply(e)}><div>Reply</div></div>
                   </div>
                 </div>
               </div>
@@ -105,32 +82,9 @@ const [reply,setReply]= useState([]);
         <div className="option">
               <span className={`like ${isLike==1 ? "red" : "black"}`} onClick={(e)=>likeHandle(e)}><i className="fa-solid fa-heart"></i> {likeCount}</span>
               </div>
-       <button className="btn btn-light" onClick={(e)=>showreply(e)}>show reply</button>
       </div>
-          {isShow==true &&
-          reply.map((value, index) => {
-          return (
-          <div key={index}>
-            <ReplyComment 
-            id={value.comment_id} 
-            key={value} 
-            name={value.users.name} 
-            id_user= {value.users.id}
-            created_at={value.created_at} 
-            like={value.like_comment_count}
-            likes={value.likes_comment_count}
-            setrender={catchreply}
-            update={handleUpdate}
-            content={value.comment}/>
-            
-          </div>
-         
-          )
-         
-        })
-          }
-          {isShow==true && reply.length==0 &&<span>no data</span>}
-    </>
+
+    </div>
   );
 };
-export default ItemComment;
+export default ReplyComment;

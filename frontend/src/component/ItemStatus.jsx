@@ -39,7 +39,7 @@ const likeHandle= async(e)=>{
                   </div>
               </div>
               <div className="option">
-              <span className={`like ${isLike==1 ? "red" : "black"}`} onClick={(e)=>likeHandle(e)}><i class="fa-solid fa-heart"></i> {likeCount}</span>
+              <span className={`like ${isLike==1 ? "red" : "black"}`} onClick={(e)=>likeHandle(e)}><i className="fa-solid fa-heart"></i> {likeCount}</span>
               </div>
           </div>
           <div className="content-div">
