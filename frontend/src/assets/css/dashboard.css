@@ -13,3 +13,10 @@
 .title-user-status .button{
     justify-self: flex-end;
 }
+.label{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.wordCount{
+    justify-self: flex-end;
+}

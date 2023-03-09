@@ -21,7 +21,6 @@ class StatusTest extends TestCase
     {
         $data = $this->user;
         $statuses = Status::factory()->count(6)->create([
-            'user_id' => $data->id,
         ]);
         foreach ($statuses as $status) {
             Status::create([
@@ -36,7 +35,7 @@ class StatusTest extends TestCase
     {
         $data = $this->user;
         $input = Status::factory()->create([
-            'user_id' => $data->id,
+            
         ]);
        
         $response = $this->actingAs($this->user)->postJson('api/status', $input->toArray());
@@ -47,7 +46,7 @@ class StatusTest extends TestCase
     {
         $data = $this->user;
         $status = Status::factory()->create([
-            'user_id' => $data->id,
+           
         ]);
         $comments = Comment::factory()->count(6)->create([
             'user_id' => $data->id,
@@ -60,7 +59,7 @@ class StatusTest extends TestCase
     {
         $data = $this->user;
         $input = Status::factory()->create([
-            'user_id' => $data->id,
+            
         ]);
        
         $response = $this->actingAs($this->user)->postJson('api/status/'.$input->id, $input->toArray());
@@ -71,7 +70,7 @@ class StatusTest extends TestCase
     {
         $data = $this->user;
         $input = Status::factory()->create([
-            'user_id' => $data->id,
+           
         ]);
        
         $response = $this->actingAs($this->user)->deleteJson('api/status/'.$input->id);

@@ -21,11 +21,8 @@ const Layout = ({ children, title }) => {
     }
   }
   const fetchData = async () => {
-    //set axios header dengan type Authorization + Bearer token
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    //fetch user from Rest API
     await axios.get("http://localhost:8000/api/user").then((response) => {
-      //set response user to state
       setUser(response.data);
       localStorage.setItem("user", JSON.stringify(response.data));
     });
@@ -40,33 +37,30 @@ const Layout = ({ children, title }) => {
     navigate("/")
   };
   useEffect(() => {
-    if (!token && user.length == 0) {
-      navigate("/");
-    }
     fetchData();
   }, []);
   return (
     <div>
       <AuthVerify />
-      <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Navbar</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+      <nav className="navbar navbar-expand-lg bg-light">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="#">Navbar</a>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
           </button>
-          <div class=" collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <div className=" collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav">
+              <li className="nav-item">
+                <a className="nav-link active" aria-current="page" href="#">Home</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Feature</a>
+              <li className="nav-item">
+                <a className="nav-link" href="#">Feature</a>
               </li>
              
             </ul>
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item mx-5">
-                <div class="btn btn-yellow " aria-current="page" href="#"  onClick={logoutHandler}>Logout</div>
+            <ul className="navbar-nav ms-auto">
+              <li className="nav-item mx-5">
+                <div className="btn btn-yellow " aria-current="page" href="#"  onClick={logoutHandler}>Logout</div>
               </li>
             </ul>
           </div>

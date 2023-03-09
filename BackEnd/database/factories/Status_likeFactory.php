@@ -1,14 +1,13 @@
 <?php
 
 namespace Database\Factories;
-use App\Models\User;
-use App\Models\Status;
+use App\Models\Status_like;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Status_like>
  */
-class CommentFactory extends Factory
+class Status_likeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,7 +17,7 @@ class CommentFactory extends Factory
     public function definition()
     {
         return [
-            'comment' => $this->faker->sentence(),   
+            
         ];
     }
 }

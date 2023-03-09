@@ -24,19 +24,20 @@ Route::middleware(['auth:api'])->group(
         Route::post('/status', [StatusController::class, 'store'])->name('status.store');
         Route::post('/status/{id}', [StatusController::class, 'update'])->name("status.update");
         Route::get('/status/{id}', [StatusController::class, 'show'])->name('status.show');
-        Route::get('/status', [StatusController::class, 'index'])->name('status.index');
-       
-        Route::delete('/status/{id}', [StatusController::class, 'destroy'])->name("status.delete");
         
+        Route::delete('/status/{id}', [StatusController::class, 'destroy'])->name("status.delete");
+        Route::post('/like/{id}', [StatusController::class, 'like'])->name("status.like");
+        Route::post('/like_comment/{id}', [CommentController::class, 'like'])->name("comment.like");
         Route::post('/comment/{id}', [CommentController::class, 'update'])->name("comment.update");
         Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
         Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
-        Route::get('/comment/{id}', [CommentController::class, 'show'])->name('comment.shoe');
+        Route::get('/reply', [CommentController::class, 'reply'])->name('comment.reply');
+        Route::get('/comment/{id}', [CommentController::class, 'show'])->name('comment.show');
         Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->name("comment.delete");
     });
-    Route::get('/status', [StatusController::class, 'index'])->name('status.index');
-       
-    
+   
+ 
+        Route::get('/status', [StatusController::class, 'index'])->name('status.index');
 
 
     

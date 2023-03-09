@@ -23,7 +23,7 @@ const Dashboard = () => {
       
       await getStatus({params:{search:param, page:page}}).then((response) => {   
         console.log(response.data.data)
-        if (response.data.data.length === 0) {
+        if (response.data.data.length <7) {
                 setHasMore(false)
               }
         setStatus([...status, ...response.data.data])
@@ -55,12 +55,12 @@ const Dashboard = () => {
     
       <div className="wall1">
         <div className="title">
-          <div class="text"></div>
+          <div className="text"></div>
           
         </div>
-        <div class="d-flex">
-        <input class="form-control me-2" value={param} placeholder="Search" onChange={(e) => setParam(e.target.value)} aria-label="Search"/>
-        <button class="btn btn-outline-dark" onClick={onSearch}>Search</button>
+        <div className="d-flex">
+        <input className="form-control me-2" value={param} placeholder="Search" onChange={(e) => setParam(e.target.value)} aria-label="Search"/>
+        <button className="btn btn-outline-dark" onClick={onSearch}>Search</button>
       </div>
       <InfiniteScroll
           dataLength={status.length}
@@ -69,23 +69,23 @@ const Dashboard = () => {
           loader={<LoadingComponent/>}
           endMessage={
             <p style={{ textAlign: 'center' }}>
-              <b>Yay! You have seen it all</b>
+              <b>no data more</b>
             </p>
           }
         >
         {
           status.length>0 ? status.map((value, index) => {
         return (
-        <>
+        <div key={index}>
        
             <NavLink
             to={`/status/${value.id}`}
             className="NavLink"
           >
-          <ItemStatus key={value} avatar={avatar} name={value.users.name} created_at={value.created_at} content={value.detail}/>
+          <ItemStatus id={value.id} key={value} avatar={avatar} name={value.users.name} created_at={value.created_at} like_count={value.like_count} likes_count={value.likes_count} content={value.detail}/>
           </NavLink>
 
-        </>
+        </div>
        
         )
        

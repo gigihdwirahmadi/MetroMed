@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Status;
 use Illuminate\Http\Request;
 use App\Http\Requests\InfoRequest;
+use App\Models\Comment;
+use App\Models\Status_like;
 use Illuminate\Support\Facades\Auth;
 use NunoMaduro\Collision\Adapters\Phpunit\State;
 use DateTimeInterface;
@@ -22,7 +24,7 @@ class StatusController extends Controller
 }
     public function index(Request $request)
     {
-        $data = Status::orderBy('created_at', 'DESC')->with('users') 
+        $data = Status::orderBy('created_at', 'DESC')->with('users')->withCount('likes')->withCount('like')
         ->when($request->has('user_id'), function ($query) use ($request) {
             $query->where('user_id', $request->user_id);})
         ->when($request->has('search'), function ($query) use ($request) {
@@ -69,7 +71,7 @@ class StatusController extends Controller
      */
     public function show($id)
     {
-        $data = Status::where('id',$id)->with('users:id,name')->with('comments')->first();
+        $data = Status::where('id',$id)->with('users:id,name')->with('comments')->withCount('likes')->withCount('like')->first();
         return response()->json([
             "status" => "ok",
             "data" => $data
@@ -118,5 +120,20 @@ class StatusController extends Controller
 
         return response()->noContent();
     }
-    
+    public function like($id)
+    {
+        $data=Status_like::where('status_id',$id)->where('user_id',Auth::user()->id)->first();
+        if($data==null){
+          
+            Status_like::create([
+                'user_id'=>Auth::user()->id,
+                'status_id'=>$id
+            ]);
+        }else{
+            Status_like::where('status_id',$id)->where('user_id',Auth::user()->id)->delete();
+        }
+        return response()->json(['status'=>"ADA1"], 201);
+        $data=Status_like::where('status_id',$id)->where('user_id',Auth::user()->id);
+      
+    }
 }

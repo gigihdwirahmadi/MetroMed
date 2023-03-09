@@ -22,6 +22,7 @@ const UserStatus = () => {
     const [formStatus, setformStatus] = useState('');
     const [idUpdate, setIdupdate] = useState('')
     const [update, setUpdate] = useState(0);
+    const [wordCount, setWordCount] = useState(0);
     const [status, setStatus] = useState([]);
     const [page, setPage] = useState(1);
      const [hasMore, setHasMore] = useState(true)
@@ -106,11 +107,11 @@ const UserStatus = () => {
                 setLoadctrl(loadctrl+1);
                 setIsLoading(true)
             }
-            
+        
             console.log(JSON.parse(localStorage.getItem('user')).id)
             getStatus({ params: { user_id: JSON.parse(localStorage.getItem('user')).id, page: page } },)
                 .then((response) => {
-                    if (response.data.data.length === 0) {
+                    if (response.data.data.length < 7) {
                               setHasMore(false)
                         }
                         setStatus([...status, ...response.data.data])
@@ -124,17 +125,30 @@ const UserStatus = () => {
     useEffect(() => {
         catchStatus();
     },[update] );
+    useEffect(() => {
+        // array of words
+        const words = formStatus.split(' ');
+    
+        // update word count
+        let wordCount = 0;
+        words.forEach((word) => {
+          if (word.trim() !== '') {
+            wordCount++;
+          }
+        });
+        setWordCount(wordCount);
+      }, [formStatus]);
     return (
         <>
-            <div className="mother-wall">
-            <InfiniteScroll
+        <div className="mother-wall">
+        <InfiniteScroll
           dataLength={status.length}
           next={nextScroll}
           hasMore={hasMore}
           loader={<LoadingComponent/>}
           endMessage={
             <p style={{ textAlign: 'center' }}>
-              <b>Yay! You have seen it all</b>
+              <b>no data more</b>
             </p>
           }
         >
@@ -148,23 +162,22 @@ const UserStatus = () => {
                     {
                         status.length > 0 ? status.map((value, index) => {
                             return (
-                                <>
+                                <div key={index}>
 
                                     <CrudStatusComponent
                                         fungsi={updateStatus}
                                         id={value.id}
-                                        key={value}
                                         avatar={avatar}
                                         name={value.users.name}
                                         created_at={value.created_at}
                                         content={value.detail}
                                         render={renderdelete} />
 
-                                </>
+                                </div>
                             )
 
                         })
-                            : <><NotFoundComponent /></>
+                            : <></>
                     }
                 </div>
                 </InfiniteScroll>
@@ -174,8 +187,9 @@ const UserStatus = () => {
                     <Modal.Title>Add Status</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Detail Status</label>
+                    <div className="mb-3">
+                      <div className="label">
+                        <span><label for="exampleFormControlTextarea1" className="form-label">Detail Status</label></span><div className="wordCount">{wordCount} word</div></div>
                         <textarea
                             className={`form-control ${errorform?.detail ? "is-invalid" : ""}`}
                             id="exampleFormControlTextarea1" rows="7"

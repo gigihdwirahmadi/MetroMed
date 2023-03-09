@@ -5,9 +5,11 @@ namespace App\Models;
 use App\Traits\Notifiable;
 use App\Models\User;
 use App\Models\Comment;
+use App\Models\Status_like;
 use App\Traits\Paging;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Status extends Model
 {
@@ -25,8 +27,17 @@ class Status extends Model
         return $this->belongsTo(User::class,'user_id','id');
     }
     public function comments()
-    {
-        return $this->hasMany(Comment::class)
-        ->join('users','users.id', 'comments.user_id');
+    { 
+        return $this->hasMany(Comment::class)->withCount("likesComment")->withCount("likeComment")->where('reply_id',null)
+        ->with('users');
     }
+    public function like()
+    {
+        return $this->belongsTo(Status_like::class,'id','status_id')->where('user_id',Auth::user()->id);
+    }
+    public function likes()
+    {
+        return $this->hasMany(Status_like::class);
+    }
+    
 }
