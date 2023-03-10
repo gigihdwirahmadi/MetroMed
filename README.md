@@ -2,27 +2,27 @@
 
 ### integrasi backend
 
--open folder backend
+- open folder backend
 `cd backend`
--install composer
+- install composer
 `composer install`
--create new file with name `.env`
--copy all code from file `.env.example` then paste in file `.env`
--generate key in env
+- create new file with name `.env`
+- copy all code from file `.env.example` then paste in file `.env`
+- generate key in env
 `php artisan key:generate`
--create key jwt 
+- create key jwt 
 `php artisan jwt secret`
--dont forget to start localhost with laragon
--create new database mysql with name `minisosmed`
--create table database 
+- dont forget to start localhost with laragon
+- create new database mysql with name `minisosmed`
+- create table database 
 `php artisan migrate`
--seeding data
+- seeding data
 `php artisan db:seed`
 
 ### integrasi frontend
--open folder frontend
+- open folder frontend
 `cd frontend`
--install package frontend
+- install package frontend
 `npm install`
 
 ### Start Website
