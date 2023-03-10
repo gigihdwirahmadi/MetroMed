@@ -6,7 +6,7 @@ import LoadingComponent from "../component/LoadingComponent";
 import { likeComment } from "../service";
 import ReplyComment from "./ReplyComment";
 import './../assets/css/ItemComment.css'
-const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setrender, renderReply, handleUpdate, replytotal, createReply, setid }) => {
+const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setrender,renderReplyDelete, renderReply, handleUpdate, replytotal, createReply, setid }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const [isLike, setIsLike] = useState(like);
   const [isLoad, setIsLoading]= useState(false)
@@ -37,7 +37,7 @@ const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setr
     try {
       await deleteComment(id).then((response) => {
         setrender(id);
-        setTotalReply(totalReply - 1)
+      
       });
     } catch (error) {
       console.log(error);
@@ -67,7 +67,11 @@ const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setr
       setIsLoading(false)
       setReply([...response.data.data])
     });
-
+  }
+  const renderDeleteReply=()=>{
+    catchreply();
+    renderReplyDelete(id);
+    
   }
   useEffect(() => {
     catchreply();
@@ -108,8 +112,11 @@ const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setr
           </div>
         </div>
         <div className="option">
+       
           <div className="btn-reply">
-            <button className="btn btn-light" onClick={(e) => showreply(e)}>{isShow?"Close Reply" : "Show Reply"}</button></div>
+          {replytotal>0 &&
+            <button className="btn btn-light" onClick={(e) => showreply(e)}>{isShow?"Close Reply" : "Show Reply"}</button>}</div>
+
           <span className={`like ${isLike == 1 ? "red" : "black"}`} onClick={(e) => likeHandle(e)}><i className="fa-solid fa-heart"></i> {likeCount}</span>
         </div>
 
@@ -126,7 +133,7 @@ const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setr
                 created_at={value.created_at}
                 like={value.like_comment_count}
                 likes={value.likes_comment_count}
-                setrender={catchreply}
+                setrender={renderDeleteReply}
                 update={handleUpdate}
                 content={value.comment} />
 
@@ -136,7 +143,6 @@ const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setr
 
         })
       }
-      {isShow == true && reply.length == 0 && isLoad==false && <span>no data</span>}
       { isLoad==true && isShow==true&&<span><LoadingComponent/></span>}
     </>
   );

@@ -30,11 +30,13 @@ class StatusSeeder extends Seeder
                 'user_id' => $users->random()
             ]);
             foreach($comments as $comment){
-                Comment::factory()->count(rand(0,3))->create([
+                $random=rand(0,3);
+                Comment::factory()->count($random)->create([
                     'status_id'=>$status->id, 
                     'user_id' => $users->random(),
                     'reply_id'=>$comment->id
                 ]);
+                Comment::where('comment_id',$comment->id)->update(['reply_total'=>$random]);
             }
         }
     }

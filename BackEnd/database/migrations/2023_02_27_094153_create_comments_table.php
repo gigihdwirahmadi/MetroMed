@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('status_id');
             $table->unsignedBigInteger('reply_id')->nullable();
-            // $table->unsignedBigInteger('reply_total')->default(0)->nullable();
+            $table->unsignedBigInteger('reply_total')->default(0)->nullable();
             $table->text('comment');
             $table->foreign('status_id')->references('id')->on('status')->onDelete('cascade')->onUpdate('cascade');;
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

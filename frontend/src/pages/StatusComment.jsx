@@ -46,7 +46,13 @@ const StatusComment = () => {
         const idx = array.findIndex(item => item.comment_id === id)
         array.splice(idx, 1);
         setComment(array);
-        setUpdateChild(updateChild+1)
+        // setUpdateChild(updateChild+1)
+    }
+    const renderReplyDelete= (id)=>{
+        var array = [...Comment]; // make a separate copy of the array
+        const idx = array.findIndex(item => item.comment_id === id)
+        array[idx].reply_total= array[idx].reply_total-1;
+        setComment(array);
     }
     const addReply = (id) => {
         console.log(id, "haahhaa")
@@ -74,6 +80,11 @@ const StatusComment = () => {
                         var newdata = [response.data.data];
                         var joinarr = newdata.concat(array);
                         setComment(joinarr);
+                    }else{
+                        var array = [...Comment]; 
+                        const idx = array.findIndex(item => item.comment_id === response.data.data.reply_id)
+                        array[idx].reply_total= array[idx].reply_total+1;
+                        setComment(array);
                     }
                     setUpdateChild(updateChild + 1)
 
@@ -178,7 +189,8 @@ const StatusComment = () => {
                                                         created_at={value.updated_at}
                                                         content={value.comment}
                                                         createReply={addReply}
-                                                        renderReply={updateChild} />
+                                                        renderReply={updateChild}
+                                                        renderReplyDelete={renderReplyDelete} />
                                                 </div>)
                                             })}
                                             </> : <div className="text-center fw-bold">no data more</div>}</>
