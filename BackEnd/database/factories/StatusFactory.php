@@ -19,7 +19,6 @@ class StatusFactory extends Factory
     {
         return [
             'detail' => $this->faker->sentence(),   
-            'user_id'=> User::first()->id,
         ];
     }
 }

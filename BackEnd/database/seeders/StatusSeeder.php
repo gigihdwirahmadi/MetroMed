@@ -17,8 +17,8 @@ class StatusSeeder extends Seeder
      */
     public function run()
     {
-        $statuses = Status::factory()->count(15)->create();
         $users   = User::pluck('id');
+        $statuses = Status::factory()->count(15)->create(['user_id' => $users->random()]);
           foreach($statuses as $status){
             Status_like::factory()->count(rand(0,3))->create([
                 'status_id'=>$status->id,
@@ -33,7 +33,7 @@ class StatusSeeder extends Seeder
                 Comment::factory()->count(rand(0,3))->create([
                     'status_id'=>$status->id, 
                     'user_id' => $users->random(),
-                    'reply_id'=>$comments->id
+                    'reply_id'=>$comment->id
                 ]);
             }
         }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Comment;
+use App\Http\Requests\CommentRequest;
 use App\Models\Comment_like;
 use App\Models\Status;
 use Illuminate\Http\Request;
@@ -38,12 +39,12 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CommentRequest $request)
     {
-        $validated = $request->validate([
-            'comment' => "required",
-            'status_id' => "required",
-        ]);
+        $validated =[
+            "comment"=>$request->comment,
+            'status_id' =>$request->status_id
+        ];
         $validated['user_id']= Auth::user()->id;
         $validated['reply_id']= $request->reply_id;
         if($request->reply_id=="null"){
@@ -101,12 +102,12 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CommentRequest $request, $id)
     {
-        $validated = $request->validate([
-            'comment' => "required",
-            'status_id' => "required",
-        ]);
+        $validated = [
+            "comment"=>$request->comment,
+            'status_id' =>$request->status_id
+        ];
         $validated['user_id']= Auth::user()->id;
         $data= Comment::where("comment_id", $id);
         $data->update($validated);

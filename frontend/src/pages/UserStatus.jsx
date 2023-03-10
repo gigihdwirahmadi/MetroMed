@@ -201,7 +201,7 @@ const UserStatus = () => {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className="btn btn-yellow text-white" onClick={initModal}>
+                    <button className="btn btn-yellow" onClick={initModal}>
                         Close
                     </button>
                     <Button variant="dark" onClick={submitStatus}>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from 'moment'
 import { useState, useEffect } from "react";
 import { deleteComment, replyComment } from "../service";
 import LoadingComponent from "../component/LoadingComponent";
@@ -82,7 +83,7 @@ const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setr
               {user?.id != id_user && <span>{name}</span>}
             </div>
             <div className="time-div">
-              {created_at}
+            {moment.utc(created_at).fromNow()  }
               <div className="menu-nav">
                 <div className="menu-item"></div>
                 <div className="dropdown-container" tabindex="-1">

@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from 'moment'
 import { useState, useEffect } from "react";
 import { deleteComment } from "../service";
 import { likeComment } from "../service";
@@ -56,7 +57,7 @@ const [likeCount, setLikeCount] = useState(likes);
             {user?.id != id_user && <span>{name}</span>}
             </div>
             <div className="time-div">
-              {created_at}
+            {moment.utc(created_at).fromNow()  }
               <div className="menu-nav">
                 <div className="menu-item"></div>
                 <div className="dropdown-container" tabindex="-1">

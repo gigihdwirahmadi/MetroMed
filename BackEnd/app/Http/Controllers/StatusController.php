@@ -96,11 +96,11 @@ class StatusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(InfoRequest $request, $id)
     {
-        $validated = $request->validate([
-            'detail' => "required",
-        ]);
+        $validated =[
+            "detail"=>$request->detail,
+        ];
         $validated['user_id']= Auth::user()->id;
         $data= Status::find($id);
         $data->update($validated);

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import moment from 'moment'
 import { NavLink } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import { deleteStatus } from "../service";
@@ -47,7 +48,7 @@ const deleteHandle= async (e) => {
                    {name}
                   </div>
                   <div className="time-div">
-                    {created_at}
+                    {moment.utc(created_at).fromNow()}
                   </div>
               </div>
               </NavLink>

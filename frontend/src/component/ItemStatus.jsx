@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { likeStatus } from "../service";
-
+import moment from 'moment'
 import './../assets/css/ItemStatus.css'
 
 const ItemStatus = ({id,avatar, name, created_at, content, like_count, likes_count }) => {
@@ -35,7 +35,7 @@ const likeHandle= async(e)=>{
                    {name}
                   </div>
                   <div className="time-div">
-                    {created_at}
+                    {moment.utc(created_at).fromNow()  }
                   </div>
               </div>
               <div className="option">

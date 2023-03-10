@@ -1,8 +1,9 @@
 import React from "react";
+import moment from 'moment'
+
 import "../component/ItemStatus"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import InfiniteScroll from 'react-infinite-scroll-component'
 import { Modal, Button } from 'react-bootstrap'
 import avatar from "./../assets/img/bg2.png"
 import ItemStatus from "../component/ItemStatus";
@@ -27,7 +28,6 @@ const StatusComment = () => {
     const [replyId, setReplyId] = React.useState(null);
     const { id } = useParams();
     const [isShow, invokeModal] = React.useState(false)
-    
     document.title = "Status";
     const initModal = () => {
         setReplyId(null)
@@ -46,7 +46,7 @@ const StatusComment = () => {
         const idx = array.findIndex(item => item.comment_id === id)
         array.splice(idx, 1);
         setComment(array);
-        setUpdateChild(updateChild + 1)
+        setUpdateChild(updateChild+1)
     }
     const addReply = (id) => {
         console.log(id, "haahhaa")
@@ -159,41 +159,28 @@ const StatusComment = () => {
 
                                     <ItemStatus id={status.id} key={status} avatar={avatar} like_count={status.like_count} likes_count={status.likes_count} name={status.user_name} created_at={status.created_at} content={status.detail} />
 
-                                    <div className="title-comment"><div>All Comment</div> <div className="button-add-comment"><button className="btn btn-yellow text-white" onClick={initModal}>Add Comment</button></div></div>
+                                    <div className="title-comment"><div>All Comment</div> <div className="button-add-comment"><button className="btn btn-yellow " onClick={initModal}>Add Comment</button></div></div>
                                     {
                                         Comment.length > 0 ?
-                                            <>
-                                                {/* <InfiniteScroll
-                                                    dataLength={Comment.length}
-                                                    next={nextScroll}
-                                                    hasMore={hasMore}
-                                                    loader={<LoadingComponent />}
-                                                    endMessage={
-                                                        <p style={{ textAlign: 'center' }}>
-                                                            <b>no data more</b>
-                                                        </p>
-                                                    }
-                                                > */}
-                                                    {Comment.map((value, index) => {
-                                                    return (<div key={index}>
-                                                        <ItemComment
-                                                            avatar={avatar}
-                                                            replytotal={value.reply_total}
-                                                            like={value.like_comment_count}
-                                                            likes={value.likes_comment_count}
-                                                            name={value.users.name}
-                                                            id_user={value.user_id}
-                                                            setid={setReplyId}
-                                                            id={value.comment_id}
-                                                            setrender={setRenderDelete}
-                                                            handleUpdate={handleComment}
-                                                            created_at={value.created_at}
-                                                            content={value.comment}
-                                                            createReply={addReply}
-                                                            renderReply={updateChild} />
-                                                    </div>)
-                                                })}
-                                                {/* </InfiniteScroll> */}
+                                            <>{Comment.map((value, index) => {
+                                                return (<div key={index}>
+                                                    <ItemComment
+                                                        avatar={avatar}
+                                                        replytotal={value.reply_total}
+                                                        like={value.like_comment_count}
+                                                        likes={value.likes_comment_count}
+                                                        name={value.users.name}
+                                                        id_user={value.user_id}
+                                                        setid={setReplyId}
+                                                        id={value.comment_id}
+                                                        setrender={setRenderDelete}
+                                                        handleUpdate={handleComment}
+                                                        created_at={value.updated_at}
+                                                        content={value.comment}
+                                                        createReply={addReply}
+                                                        renderReply={updateChild} />
+                                                </div>)
+                                            })}
                                             </> : <div className="text-center fw-bold">no data more</div>}</>
                                 : <><div>no data</div></>
                         }</div>}
@@ -216,7 +203,7 @@ const StatusComment = () => {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className="btn btn-yellow text-white" onClick={initModal}>
+                    <button className="btn btn-yellow " onClick={initModal}>
                         Close
                     </button>
                     <Button variant="dark" onClick={submitComment}>

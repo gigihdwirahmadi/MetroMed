@@ -8,13 +8,13 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
-    protected const USER_DEFAULT_ID = '1';
+    protected const USER_DEFAULT_ID = '8';
     protected $user;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->user = User::find(self::USER_DEFAULT_ID);
+        $this->user =User::factory()->create();
         $this->withoutMiddleware(ThrottleRequests::class);
     }
 }

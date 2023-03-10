@@ -25,7 +25,7 @@ class CommentTest extends TestCase
             'status_id' => $input->id
         ]);
         $response = $this->actingAs($this->user)->postJson('api/comment', $input2->toArray());
-        $response->assertStatus(200);
+        $response->assertStatus(201);
     }
     public function test_user_can_update_comment()
     {
@@ -38,7 +38,7 @@ class CommentTest extends TestCase
             'status_id' => $input->id
         ]);
         $response = $this->actingAs($this->user)->postJson('api/comment/'.$input2->id, $input2->toArray());
-        $response->assertStatus(200);
+        $response->assertStatus(201);
     }
     public function test_user_can_delete_comment()
     {
@@ -51,6 +51,6 @@ class CommentTest extends TestCase
             'status_id' => $input->id
         ]);
         $response = $this->actingAs($this->user)->deleteJson('api/comment/'.$input2->id);
-        $response->assertStatus(200);
+        $response->assertStatus(204);
     }
 }
