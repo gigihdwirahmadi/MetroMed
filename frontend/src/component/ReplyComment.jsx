@@ -10,7 +10,6 @@ const [isLike, setIsLike] = useState(like);
 const [likeCount, setLikeCount] = useState(likes);
   const likeHandle= async(e)=>{
     e.preventDefault();
-    console.log(id)
     try{
     await likeComment(id).then((response)=>{
    
@@ -28,7 +27,6 @@ const [likeCount, setLikeCount] = useState(likes);
   }
   }
   const removeComment = async () => {
-    console.log(id, id_user)
     try {
       await deleteComment(id).then((response) => {
         setrender(id);
