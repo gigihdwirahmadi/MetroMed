@@ -74,14 +74,15 @@ const [likeCount, setLikeCount] = useState(likes);
             </div>
           </div>
         </div>
-        <div className="content-div">
+        <div className="content-reply-div">
           <div>
             {content}
           </div>
-        </div>
-        <div className="option">
-              <span className={`like ${isLike==1 ? "red" : "black"}`} onClick={(e)=>likeHandle(e)}><i className="fa-solid fa-heart"></i> {likeCount}</span>
+          <div className="option-reply">
+              <span className={`like-reply ${isLike==1 ? "red" : "black"}`} onClick={(e)=>likeHandle(e)}><i className="fa-solid fa-heart"></i> {likeCount}</span>
               </div>
+        </div>
+       
       </div>
 
     </div>

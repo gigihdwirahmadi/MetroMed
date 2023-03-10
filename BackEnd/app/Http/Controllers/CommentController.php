@@ -50,8 +50,8 @@ class CommentController extends Controller
             $validated['reply_id']= null;
             $comment = Comment::create($validated);
         }else{
-            $data= Comment::where("comment_id", $request->reply_id)->first();
-            Comment::where("comment_id", $request->reply_id)->update(["reply_total"=>$data->reply_total+1]);
+            // $data= Comment::where("comment_id", $request->reply_id)->first();
+            // Comment::where("comment_id", $request->reply_id)->update(["reply_total"=>$data->reply_total+1]);
             $comment = Comment::create($validated);
         }
         $comment= Comment::where("comment_id", $comment->id)->with('users')->first();
@@ -139,11 +139,11 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        $data=Comment::where('comment_id', $id)->first();
-        if($data->reply_id!=null){
-            $data2=Comment::where('comment_id', $data->reply_id)->first();
-            Comment::where("comment_id", $data->reply_id)->update(["reply_total"=>$data2->reply_total-1]);
-        }
+        // $data=Comment::where('comment_id', $id)->first();
+        // if($data->reply_id!=null){
+        //     $data2=Comment::where('comment_id', $data->reply_id)->first();
+        //     Comment::where("comment_id", $data->reply_id)->update(["reply_total"=>$data2->reply_total-1]);
+        // }
         Comment::where('comment_id', $id)->delete();
 
         return response()->noContent();

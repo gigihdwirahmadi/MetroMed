@@ -8,6 +8,9 @@
     display: grid;
 
 }
+.option .btn-reply{
+  justify-self: flex-start;
+}
 .red{
   color: red;
 }
@@ -52,8 +55,7 @@
 }
 .option{
     display: grid;
-    grid-template-columns: auto 30px;
-    justify-items: flex-end;
+    grid-template-columns: auto 60px;
 }
 .menu-nav {
     float: right;

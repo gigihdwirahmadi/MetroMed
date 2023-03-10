@@ -2,6 +2,7 @@ import React from "react";
 import "../component/ItemStatus"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import InfiniteScroll from 'react-infinite-scroll-component'
 import { Modal, Button } from 'react-bootstrap'
 import avatar from "./../assets/img/bg2.png"
 import ItemStatus from "../component/ItemStatus";
@@ -23,9 +24,10 @@ const StatusComment = () => {
     const [status, setStatus] = useState('');
     const [formComment, setFormComment] = useState('');
     const [errorform, setError] = useState([]);
-    const [replyId, setReplyId] =  React.useState(null);
+    const [replyId, setReplyId] = React.useState(null);
     const { id } = useParams();
     const [isShow, invokeModal] = React.useState(false)
+    
     document.title = "Status";
     const initModal = () => {
         setReplyId(null)
@@ -44,12 +46,13 @@ const StatusComment = () => {
         const idx = array.findIndex(item => item.comment_id === id)
         array.splice(idx, 1);
         setComment(array);
+        setUpdateChild(updateChild + 1)
     }
     const addReply = (id) => {
         console.log(id, "haahhaa")
-       setReplyId(id);  
-       console.log(replyId)
-       invokeModal(true);
+        setReplyId(id);
+        console.log(replyId)
+        invokeModal(true);
     }
     const submitComment = async (e) => {
         e.preventDefault();
@@ -57,23 +60,23 @@ const StatusComment = () => {
         formData.append("status_id", id);
         formData.append("comment", formComment);
         formData.append("reply_id", replyId);
-    
+
         try {
             if (isUpdated == false) {
                 await createComment(formData).then((response) => {
                     invokeModal(false)
-                   
+
                     toast.success('Add Comment Success !', {
                         position: toast.POSITION.TOP_RIGHT
                     });
-                    if(replyId==null){
-                    var array = [...Comment];
-                    var newdata = [response.data.data];
-                    var joinarr = newdata.concat(array);
-                    setComment(joinarr);
-                    }else{
-                        setUpdateChild(updateChild+1)
+                    if (replyId == null) {
+                        var array = [...Comment];
+                        var newdata = [response.data.data];
+                        var joinarr = newdata.concat(array);
+                        setComment(joinarr);
                     }
+                    setUpdateChild(updateChild + 1)
+
                     setReplyId(null);
                 });
             } else {
@@ -82,11 +85,11 @@ const StatusComment = () => {
                     toast.success('Add Comment Success !', {
                         position: toast.POSITION.TOP_RIGHT
                     });
-                    if(replyId==null){
-                    var array = [...Comment]; // make a separate copy of the array
-                    const idx = array.findIndex(item => item.comment_id === response.data.data.comment_id)
-                    array[idx] = response.data.data;
-                    setComment(array);
+                    if (replyId == null) {
+                        var array = [...Comment]; // make a separate copy of the array
+                        const idx = array.findIndex(item => item.comment_id === response.data.data.comment_id)
+                        array[idx] = response.data.data;
+                        setComment(array);
                     }
                     setReplyId(null);
                 });
@@ -153,31 +156,44 @@ const StatusComment = () => {
                             status ?
                                 <>
                                     <ToastContainer />
-                                  
-                                    <ItemStatus id={status.id} key={status} avatar={avatar} like_count={status.like_count} likes_count={status.likes_count}  name={status.user_name} created_at={status.created_at} content={status.detail} />
+
+                                    <ItemStatus id={status.id} key={status} avatar={avatar} like_count={status.like_count} likes_count={status.likes_count} name={status.user_name} created_at={status.created_at} content={status.detail} />
 
                                     <div className="title-comment"><div>All Comment</div> <div className="button-add-comment"><button className="btn btn-yellow text-white" onClick={initModal}>Add Comment</button></div></div>
                                     {
                                         Comment.length > 0 ?
-                                            <>{Comment.map((value, index) => {
-                                                return (<div key={index}>
-                                                    <ItemComment
-                                                        avatar={avatar}
-                                                        replytotal={value.reply_total}
-                                                        like={value.like_comment_count}
-                                                        likes={value.likes_comment_count}
-                                                        name={value.users.name}
-                                                        id_user={value.user_id}
-                                                        setid= {setReplyId}
-                                                        id={value.comment_id}
-                                                        setrender={setRenderDelete}
-                                                        handleUpdate={handleComment}
-                                                        created_at={value.created_at}
-                                                        content={value.comment}
-                                                        createReply={addReply}
-                                                        renderReply={updateChild} />
-                                                </div>)
-                                            })}
+                                            <>
+                                                {/* <InfiniteScroll
+                                                    dataLength={Comment.length}
+                                                    next={nextScroll}
+                                                    hasMore={hasMore}
+                                                    loader={<LoadingComponent />}
+                                                    endMessage={
+                                                        <p style={{ textAlign: 'center' }}>
+                                                            <b>no data more</b>
+                                                        </p>
+                                                    }
+                                                > */}
+                                                    {Comment.map((value, index) => {
+                                                    return (<div key={index}>
+                                                        <ItemComment
+                                                            avatar={avatar}
+                                                            replytotal={value.reply_total}
+                                                            like={value.like_comment_count}
+                                                            likes={value.likes_comment_count}
+                                                            name={value.users.name}
+                                                            id_user={value.user_id}
+                                                            setid={setReplyId}
+                                                            id={value.comment_id}
+                                                            setrender={setRenderDelete}
+                                                            handleUpdate={handleComment}
+                                                            created_at={value.created_at}
+                                                            content={value.comment}
+                                                            createReply={addReply}
+                                                            renderReply={updateChild} />
+                                                    </div>)
+                                                })}
+                                                {/* </InfiniteScroll> */}
                                             </> : <div className="text-center fw-bold">no data more</div>}</>
                                 : <><div>no data</div></>
                         }</div>}
@@ -193,7 +209,7 @@ const StatusComment = () => {
                             className={`form-control ${errorform?.comment ? "is-invalid" : ""}`}
                             id="exampleFormControlTextarea1" rows="3"
                             onChange={(e) => setFormComment(e.target.value)}
-                            value= {formComment}
+                            value={formComment}
                         />
                         {errorform?.comment &&
                             <span className='invalid-feedback'>{errorform.comment}</span>}
