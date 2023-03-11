@@ -1,5 +1,6 @@
 # MetroMed
-
+Metromed adalah website mini sosmed dimana nantinya user dapat melihat status status dari user lain serta membuat mengedit serta menghapus status sendiri. user juga dapat memberikan like pada status serta memberikan commentar dan like commentar user lain. user juga dapat memberikan reply atau membalas kommentar dari user lain. untuk dapat masuk ke website maka user harus login terlebih dahulu dengan nomor telepon ataupun email yang terdaftar. jika belum memiliki akun user dapat register dahulu.
+## instalasi projek
 gunakan gitclone terlebih dahulu untuk menginstall source code nya.
 ### integrasi backend
 
@@ -10,7 +11,7 @@ gunakan gitclone terlebih dahulu untuk menginstall source code nya.
 - setelah itu ketikan `php artisan key:generate` pada terminal untuk menciptakan key pada env.
 - buat key jwt di env dengan mengetikkan `php artisan jwt secret` pada terminal.
 - jangan lupa untuk start localhost menggunakan laragon.
-- buat database mysql baru dengan nama `minisosmed`.
+- buat database mysql baru dengan nama `metromed`.
 - buat tabel pada database dengan mengetikkan `php artisan migrate` pada terminal.
 - seeding data dengan mengetikkan `php artisan db:seed` pada terminal
 
