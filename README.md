@@ -1,4 +1,4 @@
-# MiniSosmed
+# MetroMed
 
 gunakan gitclone terlebih dahulu untuk menginstall source code nya.
 ### integrasi backend
