@@ -1,5 +1,6 @@
 # MetroMed
-
+Metromed adalah website mini sosmed dimana nantinya user dapat melihat status status dari user lain serta membuat mengedit serta menghapus status sendiri. user juga dapat memberikan like pada status serta memberikan commentar dan like commentar user lain. user juga dapat memberikan reply atau membalas kommentar dari user lain. untuk dapat masuk ke website maka user harus login terlebih dahulu dengan nomor telepon ataupun email yang terdaftar. jika belum memiliki akun user dapat register dahulu.
+## instalasi projek
 gunakan gitclone terlebih dahulu untuk menginstall source code nya.
 ### integrasi backend
 
