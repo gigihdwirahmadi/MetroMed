@@ -130,7 +130,7 @@ const Register = () => {
               <div className="button-form">
                 <div className="register-button"></div>
                 <div className="botttom-button">
-                  <button class="btn btn-dark" type="submit">Sign up</button>
+                  <button className="btn btn-dark" type="submit">Sign up</button>
                 </div>
               </div>
 

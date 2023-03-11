@@ -80,12 +80,12 @@ const Login = () => {
               </div>
 
               <div className="button-form">
-                <NavLink
+              
+                  <div className="register-button">dont have acoount?   <NavLink
                   to={`/register`}
-                  className="NavLink"
-                >
-                  <div className="register-button">dont have acoount? <a href="#">register</a></div>
-                </NavLink>
+                  className="link-Navlink"
+                >register </NavLink></div>
+               
                 <div className="botttom-button">
                   <button className="btn btn-dark" type="submit">Sign In</button>
                 </div>
