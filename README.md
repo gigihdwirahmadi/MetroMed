@@ -10,7 +10,7 @@ gunakan gitclone terlebih dahulu untuk menginstall source code nya.
 - setelah itu ketikan `php artisan key:generate` pada terminal untuk menciptakan key pada env.
 - buat key jwt di env dengan mengetikkan `php artisan jwt secret` pada terminal.
 - jangan lupa untuk start localhost menggunakan laragon.
-- buat database mysql baru dengan nama `minisosmed`.
+- buat database mysql baru dengan nama `metromed`.
 - buat tabel pada database dengan mengetikkan `php artisan migrate` pada terminal.
 - seeding data dengan mengetikkan `php artisan db:seed` pada terminal
 
