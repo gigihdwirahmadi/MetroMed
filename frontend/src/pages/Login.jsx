@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
-import { useNavigate,NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import axios from "axios";
 import './../assets/css/login.css';
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
-  const [remember, setRemember] = useState(0);
-  const [errorform,setError] = useState()
+  const [errorform, setError] = useState()
   const navigate = useNavigate();
 
   const LoginForm = async (e) => {
@@ -43,20 +41,20 @@ const Login = () => {
       <div className="wall-login">
         <div className="form-login">
           <div className="header-form">
-           
+
             <div className="desc1">
               LOGIN
-             
+
             </div>
           </div>
           <p className="desc">Please sign-in your account..</p>
           <div className="body-form">
             <form onSubmit={LoginForm}>
               <div className="form-input-wall">
-             
+
                 <input
-                className={`form-control ${errorform?.email ? "is-invalid" : ""}`}
-               
+                  className={`form-control ${errorform?.email ? "is-invalid" : ""}`}
+
                   type="text"
                   name="email"
                   id="email"
@@ -64,12 +62,12 @@ const Login = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter Your Email or Phone Number"
                 />
-                {errorform?.email && 
-  <span className='invalid-feedback'>{errorform.email}</span>}
+                {errorform?.email &&
+                  <span className='invalid-feedback'>{errorform.email}</span>}
               </div>
               <div className="form-input-wall">
                 <input
-              className={`form-control ${errorform?.password ? "is-invalid" : ""}`}
+                  className={`form-control ${errorform?.password ? "is-invalid" : ""}`}
                   type="password"
                   name="password"
                   id="password"
@@ -77,22 +75,22 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter Your Password"
                 />
-                 {errorform?.password && 
-  <span className='invalid-feedback'>{errorform.password}</span>}
+                {errorform?.password &&
+                  <span className='invalid-feedback'>{errorform.password}</span>}
               </div>
-              
+
               <div className="button-form">
-              <NavLink
-            to={`/register`}
-            className="NavLink"
-          >
-              <div className="register-button">dont have acoount? <a href="#">register</a></div>
-              </NavLink>
-              <div className="botttom-button">
-                <button className="btn btn-dark" type="submit">Sign In</button>
+                <NavLink
+                  to={`/register`}
+                  className="NavLink"
+                >
+                  <div className="register-button">dont have acoount? <a href="#">register</a></div>
+                </NavLink>
+                <div className="botttom-button">
+                  <button className="btn btn-dark" type="submit">Sign In</button>
                 </div>
               </div>
-             
+
             </form>
           </div>
         </div>

@@ -7,20 +7,8 @@ import { Modal, Button } from 'react-bootstrap'
 import AuthVerify from './../plugins'
 const Layout = ({ children, title }) => {
   const [user, setUser] = useState([]);
-  const [errorform, setError] = useState()
   const token = localStorage.getItem("token");
-  const [formStatus, setformStatus] = useState('');
-  const [isShow, invokeModal] = useState(false)
   const navigate = useNavigate();
-
-  const initModal = () => {
-    if (isShow == false) {
-      return invokeModal(true)
-    }
-    else {
-      return invokeModal(false)
-    }
-  }
   const fetchData = async () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     await axios.get("http://localhost:8000/api/user").then((response) => {
@@ -30,7 +18,6 @@ const Layout = ({ children, title }) => {
   };
 
   const logoutHandler = async () => {
-    console.log("ada")
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     await axios.post("http://localhost:8000/api/logout").then(() => {
     });
@@ -43,13 +30,13 @@ const Layout = ({ children, title }) => {
   return (
     <div>
       <AuthVerify />
-      <nav className="navbar navbar-expand-lg bg-light">
+      <nav className="navbar navbar-expand-lg bg-light fixed-top">
         <div className="container-fluid">
         <NavLink
                   to={`/dashboard`}
                   className="NavLink"
                 >
-          <a className="navbar-brand" href="#">MetroMed</a>
+          <span className="navbar-brand cursor-pointer" href="#">MetroMed</span>
           </NavLink>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
@@ -61,7 +48,7 @@ const Layout = ({ children, title }) => {
                   to={`/mystatus`}
                   className="NavLink"
                 >
-                  <a className="nav-link" href="#">Our Status</a>
+                  <span className="nav-link cursor-pointer" href="#">Our Status</span>
                 </NavLink>
               </li>
 
@@ -74,9 +61,9 @@ const Layout = ({ children, title }) => {
           </div>
         </div>
       </nav>
-      <div className="container">
+      <div className="container wall-auth">
 
-        <div className="">{children}</div>
+        <div >{children}</div>
       </div>
 
     </div>

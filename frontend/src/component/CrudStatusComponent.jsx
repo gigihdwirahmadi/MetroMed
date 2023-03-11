@@ -7,8 +7,6 @@ import { deleteStatus } from "../service";
 import { Modal, Button } from 'react-bootstrap'
 import './../assets/css/CrudStatusComponent.css'
 const CrudStatusComponent = ({ fungsi,avatar, name, created_at, content ,id,render}) => {
-    const [formComment, setFormComment] = useState('');
-    const [errorform, setError] = useState([]);
     const [isShow, invokeModal] = useState(false)
 const initModal = () => {
     if (isShow == false) {
@@ -53,8 +51,8 @@ const deleteHandle= async (e) => {
               </div>
               </NavLink>
               <div className="option">
-              <span ><i class="fa-solid fa-pen-to-square cursor-pointer" onClick={(e)=>updateHandle(e)}></i></span>
-              <span><i class="fa-solid fa-trash cursor-pointer" onClick={(e)=>deleteHandle(e)}></i></span>
+              <span ><i className="fa-solid fa-pen-to-square" onClick={(e)=>updateHandle(e)}></i></span>
+              <span><i className="fa-solid fa-trash" onClick={(e)=>deleteHandle(e)}></i></span>
               </div>
           </div>
           <div className="content-div">

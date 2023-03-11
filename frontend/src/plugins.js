@@ -19,7 +19,6 @@ const AuthVerify = () => {
     const user = localStorage.getItem("user");
     if (token) {
       const decodedJwt = parseJwt(token);
-    console.log(decodedJwt.exp*1000, Date.now());
       if (decodedJwt.exp * 1000 < Date.now()) {
        
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;

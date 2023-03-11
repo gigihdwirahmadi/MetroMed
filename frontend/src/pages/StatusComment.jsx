@@ -1,5 +1,4 @@
 import React from "react";
-import moment from 'moment'
 
 import "../component/ItemStatus"
 import { ToastContainer, toast } from 'react-toastify';
@@ -9,9 +8,8 @@ import avatar from "./../assets/img/bg2.png"
 import ItemStatus from "../component/ItemStatus";
 import ItemComment from "../component/ItemComment";
 import LoadingComponent from "../component/LoadingComponent";
-import axios from "axios";
 import "./../assets/css/StatusComment.css"
-import { useEffect, useRef, useState, useReducer } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { createComment, findStatus, UpdateComment, findComment } from "../service";
 const StatusComment = () => {
@@ -55,9 +53,7 @@ const StatusComment = () => {
         setComment(array);
     }
     const addReply = (id) => {
-        console.log(id, "haahhaa")
         setReplyId(id);
-        console.log(replyId)
         invokeModal(true);
     }
     const submitComment = async (e) => {
@@ -118,7 +114,6 @@ const StatusComment = () => {
                 setIsLoading(true)
             }
             findStatus(id).then((response) => {
-                console.log(response.data.data)
                 setComment([...Comment, ...response.data.data.comments])
                 setStatus({
                     id: response.data.data.id,
@@ -128,7 +123,6 @@ const StatusComment = () => {
                     detail: response.data.data.detail,
                     created_at: response.data.data.created_at,
                 });
-                console.log(status)
                 setIsLoading(false);
 
             });

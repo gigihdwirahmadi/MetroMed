@@ -10,11 +10,9 @@ const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setr
   const user = JSON.parse(localStorage.getItem("user"));
   const [isLike, setIsLike] = useState(like);
   const [isLoad, setIsLoading]= useState(false)
-  const [totalReply, setTotalReply] = useState(replytotal)
   const [isShow, setIsShow] = useState(false);
   const [likeCount, setLikeCount] = useState(likes);
   const [reply, setReply] = useState([]);
-  const [isReply, setIsReply] = useState(false);
   const likeHandle = async (e) => {
     e.preventDefault();
     try {
@@ -33,7 +31,6 @@ const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setr
     }
   }
   const removeComment = async () => {
-    console.log(id, id_user)
     try {
       await deleteComment(id).then((response) => {
         setrender(id);
@@ -90,7 +87,7 @@ const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setr
             {moment.utc(created_at).fromNow()  }
               <div className="menu-nav">
                 <div className="menu-item"></div>
-                <div className="dropdown-container" tabindex="-1">
+                <div className="dropdown-container" tabIndex="-1">
                   <div className="three-dots"></div>
                   <div className="dropdown">
                     {user?.id == id_user &&

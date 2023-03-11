@@ -6,11 +6,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { Modal, Button } from 'react-bootstrap'
 import LoadingComponent from "../component/LoadingComponent";
-import { NavLink } from "react-router-dom"
 import CrudStatusComponent from "../component/CrudStatusComponent";
-import axios from "axios";
-import { useEffect, useRef, useState, useReducer } from "react";
-import NotFoundComponent from "../component/NotFoundComponent";
+import { useEffect, useState } from "react";
 import { getStatus, createStatus, findStatus, editStatus } from "../service";
 
 const UserStatus = () => {
@@ -33,6 +30,7 @@ const UserStatus = () => {
         }
         else {
             if (formupdate == true) {
+                setformStatus('')
                 setFormupdate(false)
             }
             return invokeModal(false)
@@ -57,19 +55,17 @@ const UserStatus = () => {
                     var newdata= [response.data.data]
                     var array = status;
                     var newarray= newdata.concat(array) 
-                    console.log(newarray)
                     setStatus(newarray);
                     setformStatus('');
                 });
             } else {
-                console.log(idUpdate, formStatus);
                 await editStatus(idUpdate, formData,).then((response) => {
                     invokeModal(false)
                     toast.success('Update Status Success !', {
                         position: toast.POSITION.TOP_RIGHT
                     });
                     var array = [...status]; // make a separate copy of the array
-                    const idx = array.findIndex(item => item.id === idUpdate)
+                    const idx = array.findIndex(item => item.id == idUpdate)
                     array[idx]= response.data;
                     setStatus(array);
                     setFormupdate(false);
@@ -96,24 +92,22 @@ const UserStatus = () => {
     };
     const renderdelete=(id)=>{
         var array = [...status]; // make a separate copy of the array
-        const idx = array.findIndex(item => item.id === id)
+        const idx = array.findIndex(item => item.id == id)
         
           array.splice(idx, 1);
           setStatus(array);
     }
     const catchStatus = async () => {
-        console.log('ada')
         try {
             if(loadctrl==0){
                 setLoadctrl(loadctrl+1);
                 setIsLoading(true)
             }
-        
-            console.log(JSON.parse(localStorage.getItem('user')).id)
             getStatus({ params: { user_id: JSON.parse(localStorage.getItem('user')).id, page: page } },)
                 .then((response) => {
                     if (response.data.data.length < 7) {
-                              setHasMore(false)
+                              setHasMore(false);
+                            setIsLoading(false)
                         }
                         setStatus([...status, ...response.data.data])
                     
@@ -157,7 +151,7 @@ const UserStatus = () => {
                     <ToastContainer />
                     <div className="title-user-status">
                         <div>Your Status</div>
-                        <div className="button"> <button class="btn btn-outline-yellow " aria-current="page" href="#" onClick={initModal}>Add Status</button></div>
+                        <div className="button"> <button className="btn btn-outline-yellow " aria-current="page" href="#" onClick={initModal}>Add Status</button></div>
                     </div>
 
                     {
@@ -190,12 +184,13 @@ const UserStatus = () => {
                 <Modal.Body>
                     <div className="mb-3">
                       <div className="label">
-                        <span><label for="exampleFormControlTextarea1" className="form-label">Detail Status</label></span><div className="wordCount">{wordCount} word</div></div>
+                        <span><label htmlFor="exampleFormControlTextarea1" className="form-label">Detail Status</label></span><div className="wordCount">{wordCount} word</div></div>
                         <textarea
                             className={`form-control ${errorform?.detail ? "is-invalid" : ""}`}
                             id="exampleFormControlTextarea1" rows="7"
                             onChange={(e) => setformStatus(e.target.value)}
-                        >{formStatus}</textarea>
+                            value={formStatus}
+                        />
                         {errorform?.detail &&
                             <span className='invalid-feedback'>{errorform.detail}</span>}
                     </div>
