@@ -28,7 +28,7 @@ class Status extends Model
     }
     public function comments()
     { 
-        return $this->hasMany(Comment::class)->withCount("likesComment")->withCount("likeComment")->where('reply_id',null)
+        return $this->hasMany(Comment::class)->withCount("likesComment")->withCount("likeComment")->where('reply_id',null)->orderBy('crea', 'DESC')
         ->with('users');
     }
     public function like()

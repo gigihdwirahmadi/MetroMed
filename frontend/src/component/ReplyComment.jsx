@@ -58,20 +58,19 @@ const [likeCount, setLikeCount] = useState(likes);
             </div>
             <div className="time-div">
             {moment.utc(created_at).fromNow()  }
+            {user?.id == id_user &&
               <div className="menu-nav">
                 <div className="menu-item"></div>
                 <div className="dropdown-container" tabindex="-1">
                   <div className="three-dots"></div>
                   <div className="dropdown">
-                  {user?.id == id_user &&
+                 
                     <div className="button" onClick={removeComment}><div>delete</div></div>
-                  }
-                  {user?.id == id_user &&
-                    <div className="button" onClick={UpdateComment}><div>edit</div></div> 
-                  }
+                 
                   </div>
                 </div>
               </div>
+               }
             </div>
           </div>
         </div>

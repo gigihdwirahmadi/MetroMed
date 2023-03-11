@@ -46,7 +46,7 @@ const StatusComment = () => {
         const idx = array.findIndex(item => item.comment_id === id)
         array.splice(idx, 1);
         setComment(array);
-        // setUpdateChild(updateChild+1)
+        setUpdateChild(updateChild+1)
     }
     const renderReplyDelete= (id)=>{
         var array = [...Comment]; // make a separate copy of the array

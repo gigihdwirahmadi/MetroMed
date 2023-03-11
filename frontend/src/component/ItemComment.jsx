@@ -37,7 +37,7 @@ const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setr
     try {
       await deleteComment(id).then((response) => {
         setrender(id);
-      
+        setIsShow(false)
       });
     } catch (error) {
       console.log(error);
@@ -74,13 +74,13 @@ const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setr
     
   }
   useEffect(() => {
-    catchreply();
+    catchreply(); setReply([]);setIsShow(false);console.log("render reply")
   }, [renderReply]);
+  
   return (
     <>
       <div className="post">
         <div className="user-div">
-
           <div className="side">
             <div className="writer-name">
               {user?.id == id_user && <span>You</span>}
