@@ -9,7 +9,7 @@ gunakan gitclone terlebih dahulu untuk menginstall source code nya.
 - buat file baru dengan nama `.env` di dalam folder backend.
 - copy semua code di dalam file `.env.example` kemudian paste di file `.env`.
 - setelah itu ketikan `php artisan key:generate` pada terminal untuk menciptakan key pada env.
-- buat key jwt di env dengan mengetikkan `php artisan jwt secret` pada terminal.
+- buat key jwt di env dengan mengetikkan `php artisan jwt:secret` pada terminal.
 - jangan lupa untuk start localhost menggunakan laragon.
 - buat database mysql baru dengan nama `metromed`.
 - buat tabel pada database dengan mengetikkan `php artisan migrate` pada terminal.
