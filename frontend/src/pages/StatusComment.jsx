@@ -193,7 +193,7 @@ const StatusComment = () => {
             </div>
             <Modal show={isShow}>
                 <Modal.Header closeButton onClick={initModal}>
-                    <Modal.Title>Add Comment</Modal.Title>
+                    <Modal.Title>{isUpdated==true?"Edit Comment":"Add Comment"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="mb-3">
@@ -213,7 +213,7 @@ const StatusComment = () => {
                         Close
                     </button>
                     <Button variant="dark" onClick={submitComment}>
-                        Store
+                    {isUpdated==true?"Edit":"Store"}
                     </Button>
                 </Modal.Footer>
             </Modal>

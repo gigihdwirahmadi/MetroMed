@@ -10,9 +10,9 @@
 .black{
     color: black;
 }
-.writer-div{
+.status-writer-div{
     display: grid;
-    grid-template-columns: 60px auto;
+    grid-template-columns: 60px auto 50px;
 }
 .writer-name{
     font-weight: bold;
@@ -25,8 +25,7 @@
 .content-div{
     margin:10px 0;
 }
-.item-option{
-    margin-right:10px;
+.option-status{
     float:left;
     font-size: 20px;
 }

@@ -179,7 +179,7 @@ const UserStatus = () => {
             </div>
             <Modal show={isShow}>
                 <Modal.Header closeButton onClick={initModal}>
-                    <Modal.Title>Add Status</Modal.Title>
+                    <Modal.Title>{formupdate==true?"Edit Status":"Add Status"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="mb-3">
@@ -200,7 +200,7 @@ const UserStatus = () => {
                         Close
                     </button>
                     <Button variant="dark" onClick={submitStatus}>
-                        Store
+                        {formupdate==true?"Update":"Store"}
                     </Button>
                 </Modal.Footer>
             </Modal>

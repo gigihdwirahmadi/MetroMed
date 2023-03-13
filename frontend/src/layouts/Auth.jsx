@@ -48,7 +48,7 @@ const Layout = ({ children, title }) => {
                   to={`/mystatus`}
                   className="NavLink"
                 >
-                  <span className="nav-link cursor-pointer" href="#">Our Status</span>
+                  <span className="nav-link cursor-pointer" href="#">Your Status</span>
                 </NavLink>
               </li>
 
