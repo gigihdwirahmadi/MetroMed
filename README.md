@@ -26,3 +26,4 @@ gunakan gitclone terlebih dahulu untuk menginstall source code nya.
 - kemudian login menggunakan email atau nomor telepon yang ada pada database minisosmed di tabel user
 - login dengan password `user123`
 
+note: jika ada update, ketikan `git pull origin main` pada terminal folder metromed untuk mendapatkan update terbarunya
