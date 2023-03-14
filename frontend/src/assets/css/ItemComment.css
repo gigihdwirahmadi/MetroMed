@@ -21,9 +21,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
-.time-div{
+.time-comment-div{
+    display: grid;
+    grid-template-columns: auto 20px;
     justify-self: flex-end;
-    padding-right: 30px;
 }
 .writer-name {
     font-weight: bold;

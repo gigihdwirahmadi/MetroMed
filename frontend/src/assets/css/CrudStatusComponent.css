@@ -5,9 +5,9 @@
     margin:10px 0;
 }
 
-.writer-div{
+.writer-edit-div{
     display: grid;
-    grid-template-columns: 60px 1fr 1fr;
+    grid-template-columns: 60px 1fr 20px;
 }
 .writer-name{
     font-weight: bold;

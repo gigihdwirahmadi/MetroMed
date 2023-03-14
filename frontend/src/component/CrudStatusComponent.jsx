@@ -32,7 +32,7 @@ const deleteHandle= async (e) => {
 
   return (
     <div className="post">
-          <div className="writer-div">
+          <div className="writer-edit-div">
          
               <div className="avatar">
                   <img src={avatar}></img>

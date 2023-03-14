@@ -6,10 +6,10 @@ import LoadingComponent from "../component/LoadingComponent";
 import { likeComment } from "../service";
 import ReplyComment from "./ReplyComment";
 import './../assets/css/ItemComment.css'
-const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setrender,renderReplyDelete, renderReply, handleUpdate, replytotal, createReply, setid }) => {
+const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setrender, renderReplyDelete, renderReply, handleUpdate, replytotal, createReply, setid }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const [isLike, setIsLike] = useState(like);
-  const [isLoad, setIsLoading]= useState(false)
+  const [isLoad, setIsLoading] = useState(false)
   const [isShow, setIsShow] = useState(false);
   const [likeCount, setLikeCount] = useState(likes);
   const [reply, setReply] = useState([]);
@@ -65,15 +65,15 @@ const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setr
       setReply([...response.data.data])
     });
   }
-  const renderDeleteReply=()=>{
+  const renderDeleteReply = () => {
     catchreply();
     renderReplyDelete(id);
-    
+
   }
   useEffect(() => {
-    catchreply(); setReply([]);setIsShow(false);console.log("render reply")
+    catchreply(); setReply([]); setIsShow(false); console.log("render reply")
   }, [renderReply]);
-  
+
   return (
     <>
       <div className="post">
@@ -83,8 +83,9 @@ const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setr
               {user?.id == id_user && <span>You</span>}
               {user?.id != id_user && <span>{name}</span>}
             </div>
-            <div className="time-div">
-            {moment.utc(created_at).fromNow()  }
+            <div className="time-comment-div">
+              <div>
+              {moment.utc(created_at).fromNow()} </div>
               <div className="menu-nav">
                 <div className="menu-item"></div>
                 <div className="dropdown-container" tabIndex="-1">
@@ -109,10 +110,10 @@ const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setr
           </div>
         </div>
         <div className="option">
-       
+
           <div className="btn-reply">
-          {replytotal>0 &&
-            <button className="btn btn-light" onClick={(e) => showreply(e)}>{isShow?"Close Reply" : "Show Reply"}</button>}</div>
+            {replytotal > 0 &&
+              <button className="btn btn-light" onClick={(e) => showreply(e)}>{isShow ? "Close Reply" : "Show Reply"}</button>}</div>
 
           <span className={`like ${isLike == 1 ? "red" : "black"}`} onClick={(e) => likeHandle(e)}><i className="fa-solid fa-heart"></i> {likeCount}</span>
         </div>
@@ -140,7 +141,7 @@ const ItemComment = ({ name, likes, created_at, content, like, id_user, id, setr
 
         })
       }
-      { isLoad==true && isShow==true&&<span><LoadingComponent/></span>}
+      {isLoad == true && isShow == true && <span><LoadingComponent /></span>}
     </>
   );
 };

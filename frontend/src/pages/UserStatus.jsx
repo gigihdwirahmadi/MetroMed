@@ -81,14 +81,11 @@ const UserStatus = () => {
     };
     const updateStatus = async (id) => {
         setFormupdate(true);
-        try {
-            await findStatus(id).then((response) => {
-                invokeModal(true);
-                setIdupdate(id);
-                setformStatus(response.data.data.detail)
-            });
-        } catch (error) {
-        }
+        var arr=[...status];
+        const idx= arr.findIndex(status => status.id== id);
+         invokeModal(true);
+         setIdupdate(id)
+        setformStatus(arr[idx].detail)
     };
     const renderdelete=(id)=>{
         var array = [...status]; // make a separate copy of the array

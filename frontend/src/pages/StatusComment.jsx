@@ -131,19 +131,12 @@ const StatusComment = () => {
         }
     };
     const handleComment = async (id) => {
-        try {
-            await findComment(id).then((response) => {
+        var arr= [...Comment];
+        const idx = arr.findIndex(item => item.comment_id === id);
                 invokeModal(true);
                 setIdupdateCom(id)
                 setIsUpdated(true);
-                setFormComment(response.data.data.comment)
-
-            });
-        }
-        catch (error) {
-            console.log(error);
-        }
-
+                setFormComment(arr[idx].comment);
     }
 
     useEffect(() => {

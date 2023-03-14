@@ -54,7 +54,7 @@ const [likeCount, setLikeCount] = useState(likes);
             {user?.id == id_user && <span>You</span>}
             {user?.id != id_user && <span>{name}</span>}
             </div>
-            <div className="time-div">
+            <div className="time-comment-div">
             {moment.utc(created_at).fromNow()  }
             {user?.id == id_user &&
               <div className="menu-nav">
